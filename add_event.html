@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="add_event.css">
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Add Event - Alumni Association Events</title>
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Alumni Association Logo">
+      <h1>Alumni Association - Events</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="event.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="add_event.html" class="active"><i class="fas fa-plus-circle"></i> Add Event</a></li>
+        <li><a href="disp_event.html"><i class="fas fa-calendar-alt"></i> Display Events</a></li>
+        <li id="logoutBtn"><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Admin Login Form -->
+  <main id="loginSection">
+    <div class="login-container">
+      <div class="login-image">
+        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Alumni Association Login">
+        <div class="image-overlay">
+          <h2>Welcome Back!</h2>
+          <p>Alumni Association Portal</p>
+        </div>
+      </div>
+      <div class="container login">
+        <h2>Admin Login</h2>
+        <form id="adminLogin">
+          <div class="ele">
+            <label for="username"><i class="fas fa-user"></i> Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+          </div>
+          <div class="ele password-container">
+            <label for="password"><i class="fas fa-lock"></i> Password</label>
+            <div class="password-input-wrapper">
+              <input type="password" id="password" name="password" placeholder="Enter your password" required>
+              <i class="fas fa-eye password-toggle" onclick="togglePassword()"></i>
+            </div>
+          </div>
+          <div class="ele">
+            <button type="submit" id="loginBtn">
+              <span class="button-text">Login</span>
+              <i class="fas fa-sign-in-alt"></i>
+            </button>
+          </div>
+          <div id="loginError" class="error-message"></div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Event Form -->
+  <main id="addEventSection" style="display: none;">
+    <div class="container add">
+      <h2>Add Event</h2>
+      <form id="add_event">
+        <div class="ele">
+          <label for="event_name">Event Name</label>
+          <input type="text" id="event_name" name="event_name" required minlength="3">
+          <div class="error-message" id="eventNameError"></div>
+        </div>
+        <div class="ele">
+          <label for="event_date">Date</label>
+          <input type="date" id="event_date" name="event_date" required>
+          <div class="error-message" id="eventDateError"></div>
+        </div>
+        <div class="ele">
+          <label for="event_time">Time</label>
+          <input type="time" id="event_time" name="event_time" required>
+          <div class="error-message" id="eventTimeError"></div>
+        </div>
+        <div class="ele">
+          <label for="event_location">Location</label>
+          <input type="text" id="event_location" name="event_location" required minlength="3">
+          <div class="error-message" id="eventLocationError"></div>
+        </div>
+        <div class="ele full-width">
+          <label for="event_description">Event Description</label>
+          <textarea id="event_description" name="event_description" rows="8" required minlength="10"></textarea>
+          <div class="error-message" id="eventDescriptionError"></div>
+        </div>
+        <div class="ele full-width">
+          <label class="checkbox-container">
+            <input type="checkbox" id="event_rsvp" name="event_rsvp">
+            <span>Enable RSVP</span>
+          </label>
+        </div>
+        <div class="button-group">
+          <button type="submit" id="submitBtn">
+            <span class="button-text">Submit</span>
+            <i class="fas fa-check"></i>
+          </button>
+          <button type="reset">
+            <span class="button-text">Clear</span>
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3><i class="fas fa-link"></i> Quick Links</h3>
+        <ul>
+          <li><a href="Alumni_home.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
+          <li><a href="#event"><i class="fas fa-calendar-alt"></i> Events</a></li>
+          <li><a href="#galery"><i class="fas fa-images"></i> Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/sagargroupofinstitutionssistec" class="social-icon"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/sagarcollege" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.youtube.com/channel/UCytOCmxQb7IFU2BVFdI7T7w" class="social-icon"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.linkedin.com/school/sagar-group-of-institutions-sistec/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.instagram.com/sagarcollegebhopal?igsh=MXJ3dHI3Mml1NWFsaA==" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-envelope"></i> Contact Us</h3>
+        <p><i class="fas fa-envelope"></i> Email: alumni@sistecgn.ac.in</p>
+        <p><i class="fas fa-phone"></i> Phone: +91 12345 67890</p>
+        <p><i class="fas fa-map-marker-alt"></i> Address: Sagar Institute of Science & Technology, Gandhi Nagar, Bhopal</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><i class="fas fa-copyright"></i> 2025 Alumni Association. All rights reserved Om Soni, Sankit Kumar, Aadarsh Singh, Tanisha Dale, Atish Kumar, Aniket Kumar.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Admin credentials
+    const adminCredentials = {
+      username: "admin",
+      password: "admin123"
+    };
+
+    // Check if admin is already logged in
+    if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+      showAddEventForm();
+    }
+
+    // Handle admin login
+    const loginForm = document.getElementById('adminLogin');
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const loginBtn = document.getElementById('loginBtn');
+      const loginError = document.getElementById('loginError');
+
+      if (username === adminCredentials.username && password === adminCredentials.password) {
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        showAddEventForm();
+      } else {
+        loginError.textContent = 'Invalid credentials. Please try again.';
+        loginError.style.display = 'block';
+      }
+    });
+
+    // Toggle password visibility
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = document.querySelector('.password-toggle');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    }
+
+    // Show add event form and hide login form
+    function showAddEventForm() {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('addEventSection').style.display = 'block';
+      document.getElementById('logoutBtn').style.display = 'block';
+    }
+
+    // Logout function
+    function logout() {
+      sessionStorage.removeItem('adminLoggedIn');
+      window.location.href = 'add_event.html';
+    }
+
+    // Form validation
+    function validateForm() {
+      let isValid = true;
+      const errors = {
+        eventNameError: document.getElementById('eventNameError'),
+        eventDateError: document.getElementById('eventDateError'),
+        eventTimeError: document.getElementById('eventTimeError'),
+        eventLocationError: document.getElementById('eventLocationError'),
+        eventDescriptionError: document.getElementById('eventDescriptionError')
+      };
+
+      // Clear previous errors
+      Object.values(errors).forEach(error => {
+        error.textContent = '';
+        error.style.display = 'none';
+      });
+
+      // Validate event name
+      const eventName = document.getElementById('event_name').value;
+      if (eventName.length < 3) {
+        errors.eventNameError.textContent = 'Event name must be at least 3 characters long';
+        errors.eventNameError.style.display = 'block';
+        isValid = false;
+      }
+
+      // Validate date
+      const eventDate = document.getElementById('event_date').value;
+      if (!eventDate) {
+        errors.eventDateError.textContent = 'Please select a date';
+        errors.eventDateError.style.display = 'block';
+        isValid = false;
+      }
+
+      // Validate time
+      const eventTime = document.getElementById('event_time').value;
+      if (!eventTime) {
+        errors.eventTimeError.textContent = 'Please select a time';
+        errors.eventTimeError.style.display = 'block';
+        isValid = false;
+      }
+
+      // Validate location
+      const eventLocation = document.getElementById('event_location').value;
+      if (eventLocation.length < 3) {
+        errors.eventLocationError.textContent = 'Location must be at least 3 characters long';
+        errors.eventLocationError.style.display = 'block';
+        isValid = false;
+      }
+
+      // Validate description
+      const eventDescription = document.getElementById('event_description').value;
+      if (eventDescription.length < 10) {
+        errors.eventDescriptionError.textContent = 'Description must be at least 10 characters long';
+        errors.eventDescriptionError.style.display = 'block';
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    // Handle form submission
+    const form = document.getElementById('add_event');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!validateForm()) {
+        return;
+      }
+
+      // Collect form data
+      const formData = new FormData(form);
+      const obj = Object.fromEntries(formData);
+      obj.event_rsvp = document.getElementById('event_rsvp').checked;
+
+      // Remove editEvent from localStorage if it exists
+      localStorage.removeItem('editEvent');
+
+      // Save the event to localStorage
+      let events = JSON.parse(localStorage.getItem('events')) || [];
+      events.push(obj);
+      localStorage.setItem('events', JSON.stringify(events));
+
+      // Show success message
+      alert('Event added successfully!');
+
+      // Redirect to the display events page
+      window.location.href = 'disp_event.html';
+    });
+
+    // Check if there's an event to edit
+    const editEvent = JSON.parse(localStorage.getItem('editEvent'));
+    if (editEvent) {
+      document.getElementById('event_name').value = editEvent.event_name;
+      document.getElementById('event_date').value = editEvent.event_date;
+      document.getElementById('event_time').value = editEvent.event_time;
+      document.getElementById('event_location').value = editEvent.event_location;
+      document.getElementById('event_description').value = editEvent.event_description;
+      document.getElementById('event_rsvp').checked = editEvent.event_rsvp || false;
+    }
+  </script>
+</body>
+</html>

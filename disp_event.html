@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="dis_event.css">
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Display Events - Alumni Association Event</title>
+  <style>
+    /* Footer Styles */
+    footer {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 3rem 0 0;
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section {
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      color: #3498db;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-section p {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #ecf0f1;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-section ul li a {
+      color: #ecf0f1;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-section ul li a:hover {
+      color: #3498db;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-icon {
+      color: #ecf0f1;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      background: #3498db;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      background: #1a252f;
+      padding: 1.5rem 0;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .footer-bottom p {
+      color: #ecf0f1;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    /* Search and Filter Styles */
+    .search-filter {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      padding-left: 2.5rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+    }
+
+    .sort-options select {
+      padding: 0.8rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      background: white;
+      cursor: pointer;
+    }
+
+    /* Table Styles */
+    .container.disp {
+      padding: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background: #f8fafc;
+      font-weight: 600;
+      color: #0a192f;
+    }
+
+    tr:hover {
+      background: #f8fafc;
+    }
+
+    .event_title {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .event_title:hover {
+      text-decoration: underline;
+    }
+
+    /* No Events Message */
+    .no-events {
+      text-align: center;
+      padding: 3rem;
+      color: #64748b;
+    }
+
+    .no-events i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #94a3b8;
+    }
+
+    /* Pagination Styles */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .pagination button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .pagination button:hover {
+      background: #f8fafc;
+    }
+
+    .pagination button.active {
+      background: #3498db;
+      color: white;
+      border-color: #3498db;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <h1>Alumni Association</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="event.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="add_event.html"><i class="fas fa-plus-circle"></i> Add Event</a></li>
+        <li><a href="disp_event.html"><i class="fas fa-calendar-alt"></i> Display Events</a></li>
+      </ul>
+    </nav>
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <main>
+    <div class="container disp">
+      <h2>Upcoming Events</h2>
+      
+      <!-- Search and Filter Section -->
+      <div class="search-filter">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search events...">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="sort-options">
+          <select id="sortSelect">
+            <option value="date-asc">Date (Oldest First)</option>
+            <option value="date-desc">Date (Newest First)</option>
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+          </select>
+        </div>
+      </div>
+
+      <table id="eventTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Month</th>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Event</th>
+            <th>Time Left</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="eventBody">
+          <!-- Data will be injected here -->
+        </tbody>
+      </table>
+
+      <!-- No Events Message -->
+      <div id="noEvents" class="no-events" style="display: none;">
+        <i class="fas fa-calendar-times"></i>
+        <p>No events found. Add some events to get started!</p>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination">
+        <!-- Pagination buttons will be injected here -->
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3><i class="fas fa-link"></i> Quick Links</h3>
+        <ul>
+          <li><a href="event.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="add_event.html"><i class="fas fa-plus-circle"></i> Add Event</a></li>
+          <li><a href="disp_event.html"><i class="fas fa-calendar-alt"></i> Display Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/sagargroupofinstitutionssistec" class="social-icon"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/sagarcollege" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.youtube.com/channel/UCytOCmxQb7IFU2BVFdI7T7w" class="social-icon"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.linkedin.com/school/sagar-group-of-institutions-sistec/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.instagram.com/sagarcollegebhopal?igsh=MXJ3dHI3Mml1NWFsaA==" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-envelope"></i> Contact Us</h3>
+        <p><i class="fas fa-envelope"></i> Email: alumni@sistecgn.ac.in</p>
+        <p><i class="fas fa-phone"></i> Phone: +91 12345 67890</p>
+        <p><i class="fas fa-map-marker-alt"></i> Address: Sagar Institute of Science & Technology, Gandhi Nagar, Bhopal</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><i class="fas fa-copyright"></i> 2025 Alumni Association. All rights reserved Om Soni, Sankit Kumar, Aadarsh Singh, Tanisha Dale, Atish Kumar, Aniket Kumar.</p>
+    </div>
+  </footer>
+
+  <script>
+    const events = JSON.parse(localStorage.getItem('events')) || [];
+    const eventBody = document.getElementById('eventBody');
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const noEvents = document.getElementById('noEvents');
+    const pagination = document.getElementById('pagination');
+    
+    let currentPage = 1;
+    const eventsPerPage = 5;
+    let filteredEvents = [...events];
+
+    function deleteEvent(index) {
+      events.splice(index, 1);
+      localStorage.setItem('events', JSON.stringify(events));
+      filteredEvents = [...events];
+      renderEvents();
+    }
+
+    function editEvent(index) {
+      const event = events[index];
+      localStorage.setItem('editEvent', JSON.stringify(event));
+      deleteEvent(index);
+      window.location.href = 'add_event.html';
+    }
+
+    function sortEvents(events) {
+      const sortValue = sortSelect.value;
+      return [...events].sort((a, b) => {
+        switch (sortValue) {
+          case 'date-asc':
+            return new Date(a.event_date + ' ' + a.event_time) - new Date(b.event_date + ' ' + b.event_time);
+          case 'date-desc':
+            return new Date(b.event_date + ' ' + b.event_time) - new Date(a.event_date + ' ' + a.event_time);
+          case 'name-asc':
+            return a.event_name.localeCompare(b.event_name);
+          case 'name-desc':
+            return b.event_name.localeCompare(a.event_name);
+          default:
+            return 0;
+        }
+      });
+    }
+
+    function filterEvents(searchTerm) {
+      return events.filter(event => 
+        event.event_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        event.event_location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        event.event_description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    function calculateTimeLeft(event) {
+      const eventDateTime = new Date(event.event_date + ' ' + event.event_time).getTime();
+      const now = new Date().getTime();
+      const timeLeft = eventDateTime - now;
+
+      if (timeLeft < 0) return 'Event has passed';
+
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function updateTimeLeft() {
+      const rows = eventBody.querySelectorAll('tr');
+      rows.forEach((row, index) => {
+        const timeLeftCell = row.querySelector('.time-left');
+        if (timeLeftCell) {
+          const event = filteredEvents[index];
+          const timeLeft = calculateTimeLeft(event);
+          timeLeftCell.textContent = timeLeft;
+          if (timeLeft === 'Event has passed') {
+            row.style.backgroundColor = '#fee2e2';
+          }
+        }
+      });
+    }
+
+    function renderPagination() {
+      const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
+      let paginationHTML = '';
+
+      for (let i = 1; i <= totalPages; i++) {
+        paginationHTML += `
+          <button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">
+            ${i}
+          </button>
+        `;
+      }
+
+      pagination.innerHTML = paginationHTML;
+    }
+
+    function changePage(page) {
+      currentPage = page;
+      renderEvents();
+    }
+
+    function renderEvents() {
+      const searchTerm = searchInput.value;
+      filteredEvents = filterEvents(searchTerm);
+      filteredEvents = sortEvents(filteredEvents);
+
+      const startIndex = (currentPage - 1) * eventsPerPage;
+      const endIndex = startIndex + eventsPerPage;
+      const paginatedEvents = filteredEvents.slice(startIndex, endIndex);
+
+      eventBody.innerHTML = '';
+      noEvents.style.display = filteredEvents.length === 0 ? 'block' : 'none';
+
+      paginatedEvents.forEach((event, index) => {
+        const row = document.createElement('tr');
+        const eventDate = new Date(event.event_date);
+        const dayOfWeek = eventDate.toLocaleString('en-us', { weekday: 'short' });
+        const monthName = eventDate.toLocaleString('en-us', { month: 'long' });
+        const dateOfMonth = eventDate.getDate();
+        const timeFormat = convertTo12HourFormat(event.event_time);
+
+        row.innerHTML = `
+          <td>
+            <div class="day">
+              <div>${dayOfWeek}</div>
+              <div class="dayOfMonth">${dateOfMonth}</div>
+            </div>
+          </td>
+          <td>${monthName}</td>
+          <td>${timeFormat}</td>
+          <td>${event.event_location}</td> 
+          <td onclick="redirectToEventDetails(${index})">
+            <a class="event_title">${event.event_name}</a>
+          </td>
+          <td>
+            <div class="lefttime">
+              <div class="time-left"></div>
+              <div class="bot-text">DAYS HOURS MINUTES SECONDS</div>
+            </div>
+          </td>
+          <td><button onclick="editEvent(${index})" class="edit-btn">✎</button></td>
+          <td><button onclick="deleteEvent(${index})" class="delete-btn">❌</button></td>
+        `;
+        eventBody.appendChild(row);
+      });
+
+      updateTimeLeft();
+      renderPagination();
+    }
+
+    function redirectToEventDetails(eventId) {
+      const event = filteredEvents[eventId];
+      localStorage.setItem('selectedEvent', JSON.stringify(event));
+      window.location.href = 'event_details.html';
+    }
+
+    function convertTo12HourFormat(time) {
+      let [hours, minutes] = time.split(':');
+      const suffix = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      return `${hours}:${minutes} ${suffix}`;
+    }
+
+    // Event Listeners
+    searchInput.addEventListener('input', () => {
+      currentPage = 1;
+      renderEvents();
+    });
+
+    sortSelect.addEventListener('change', () => {
+      currentPage = 1;
+      renderEvents();
+    });
+
+    // Initial render
+    renderEvents();
+    setInterval(updateTimeLeft, 1000);
+  </script>
+</body>
+
+</html>

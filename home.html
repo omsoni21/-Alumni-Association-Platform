@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Alumni Portal</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.png" alt="Sistec GN Alumni Logo">
+                <h1>Alumni Association</h1>
+            </div>
+            <ul class="nav-links">
+                
+				<li><a href="Alumni_home.html">Home</a></li>
+                <li><a href="home.html">About</a></li>
+                <li><a href="home.html">Events</a></li>
+                <li><a href="home.html">Gallery</a></li>
+                <li><a href="home.html">Members</a></li>
+                <li><a href="home.html">Donations</a></li>
+                <li><a href="home.html">Job</a></li>
+                <li><a href="home.html">Contact</a></li>
+                <li><a href="home.html">Feedback</a></li>
+                <li id="login-logout">
+                    <div class="login-dropdown">
+                        <button class="login-btn" onclick="toggleLoginDropdown()">
+                            <i class="fas fa-user"></i>
+                            <span>Login/Signup</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-content" id="loginDropdown">
+                            <a href="login.html" class="dropdown-item">
+                                <i class="fas fa-user-graduate"></i>
+                                User Login
+                            </a>
+                            <a href="alumni_login.html" class="dropdown-item">
+                                <i class="fas fa-user-tie"></i>
+                                Alumni Login
+                            </a>
+                            <a href="admin_log.html" class="dropdown-item">
+                                <i class="fas fa-user-shield"></i>
+                                Admin Login
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Alumni Association</h1>
+            <p>Connecting the past, present, and future of alumni.</p>
+            <a href="#showcase" class="btn">Explore More</a>
+        </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section id="showcase" class="showcase-grid">
+        <div class="grid-item">
+            <img src="meet.jpg" alt="Annual Alumni Meet">
+            <div class="overlay">
+                <a href="#meet">
+                    <h2>Annual Alumni Meet</h2>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <img src="achiv.jpg" alt="Alumni Achievements">
+            <div class="overlay">
+                <a href="#achiv">
+                    <h2>Alumni Achievements</h2>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <img src="webinar.jpg" alt="Webinar on Career Growth">
+            <div class="overlay">
+                <a href="#webinar">
+                    <h2>Webinar on Career Growth</h2>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <img src="Spotlight.jpg" alt="Alumni Spotlight">
+            <div class="overlay">
+                <a href="#alumni-spotlight">
+                    <h2>Alumni Spotlight</h2>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <h2>About Sistec GN Alumni Association</h2>
+        <p>The Sistec GN Alumni Association is dedicated to fostering lifelong connections among alumni, students, and the institution. We aim to celebrate achievements, provide career support, and organize events to strengthen our community.</p>
+    </section>
+
+    <!-- Image Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <h2> Some Memories </h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="gallery1.jpg" alt="Gallery Image 1">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery2.jpg" alt="Gallery Image 2">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery3.jpg" alt="Gallery Image 3">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery4.jpg" alt="Gallery Image 4">
+            </div>
+        </div>
+        <div class="gallery-description">
+            <p>Sagar Group of Institutions-SISTec successfully hosted an Alumni Meet - "Confluentia 2024", a heartwarming reunion of alumni from engineering, pharmacy, and management streams. The event was a grand celebration of the enduring bond between the institution and its alumni, bringing together graduates from various batches to reconnect, reminisce, and celebrate their shared journey.</p>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section">
+        <h2>What Our Alumni Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-item">
+                <p>"Sistec GN gave me the foundation to build my career. The alumni network has been incredibly supportive."</p>
+                <h3>- John Doe, Batch of 2015</h3>
+            </div>
+            <div class="testimonial-item">
+                <p>"The alumni meet was a great opportunity to reconnect with old friends and mentors."</p>
+                <h3>- Jane Smith, Batch of 2018</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section id="map-section">
+        <h2>Our College Location</h2>
+        <div id="map"></div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-link"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="Alumni_home.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="#event"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                    <li><a href="#galery"><i class="fas fa-images"></i> Gallery</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/sagargroupofinstitutionssistec" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="https://x.com/sagarcollege" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/channel/UCytOCmxQb7IFU2BVFdI7T7w" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.linkedin.com/school/sagar-group-of-institutions-sistec/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/sagarcollegebhopal?igsh=MXJ3dHI3Mml1NWFsaA==" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> Email: alumni@sistecgn.ac.in</p>
+                <p><i class="fas fa-phone"></i> Phone: +91 12345 67890</p>
+                <p><i class="fas fa-map-marker-alt"></i> Address: Sagar Institute of Science & Technology, Gandhi Nagar, Bhopal</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p><i class="fas fa-copyright"></i> 2025 Alumni Association. All rights reserved Om Soni, Sankit Kumar, Aadarsh Singh, Tanisha Dale, Atish Kumar, Aniket Kumar.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Map, Login, and Animations -->
+    <script>
+        // Google Maps API to display college location
+        function initMap() {
+            const collegeLocation = { lat: 23.303825, lng: 77.339873 }; // Sistec GN coordinates
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: collegeLocation,
+                mapTypeId: 'terrain',
+                styles: [
+                    {
+                        featureType: "poi",
+                        elementType: "labels",
+                        stylers: [{ visibility: "off" }]
+                    }
+                ]
+            });
+            new google.maps.Marker({
+                position: collegeLocation,
+                map: map,
+                title: "Sistec GN Location",
+                icon: "https://maps.google.com/mapfiles/kml/paddle/blu-circle.png",
+            });
+        }
+
+        // Login/Logout Functionality
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        const loginLogout = document.getElementById('login-logout');
+        const logoutLink = document.getElementById('logout');
+        const loginLink = document.getElementById('login');
+
+        if (loggedInUser) {
+            loginLink.style.display = 'none';
+            logoutLink.style.display = 'inline';
+        } else {
+            loginLink.style.display = 'inline';
+            logoutLink.style.display = 'none';
+        }
+
+        logoutLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            localStorage.removeItem('loggedInUser');
+            window.location.href = 'login.html';
+        });
+
+        // Login Modal
+        const modal = document.getElementById('login-modal');
+        const closeBtn = document.querySelector('.close');
+        const loginForm = document.getElementById('login-form');
+
+        loginLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            modal.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simulate login (replace with actual authentication logic)
+            if (username === 'user' && password === 'password') {
+                localStorage.setItem('loggedInUser', username);
+                window.location.href = 'Alumni_home.html';
+            } else {
+                alert('Invalid username or password');
+            }
+        });
+
+        function toggleLoginDropdown() {
+            const dropdown = document.getElementById('loginDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('loginDropdown');
+            const loginBtn = document.querySelector('.login-btn');
+            
+            if (!loginBtn.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVLRPYo9nmjaLpSnxcFHf1IrOriAZrXFk&callback=initMap"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Job</title>
+  <link rel="stylesheet" href="apply_job.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="Alumni_home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="view.html">view jobs</a></li>
+        <li><a href="jobportal.html">Upload Jobs</a></li>
+       
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Apply Job Container -->
+  <div id="applyJobContainer">
+    <h1>Apply for Job</h1>
+    <form id="applyJobForm">
+      <!-- Candidate Name -->
+      <div class="form-group">
+        <label for="candidateName">Your Name:</label>
+        <input type="text" id="candidateName" placeholder="Enter your name" required>
+      </div>
+
+      <!-- Candidate Email -->
+      <div class="form-group">
+        <label for="candidateEmail">Your Email:</label>
+        <input type="email" id="candidateEmail" placeholder="Enter your email" required>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <div class="phone-input-group">
+          <select id="countryCode" required>
+            <option value="+1">+1 (US/Canada)</option>
+            <option value="+44">+44 (UK)</option>
+            <option value="+91">+91 (India)</option>
+            <option value="+61">+61 (Australia)</option>
+            <option value="+49">+49 (Germany)</option>
+            <option value="+33">+33 (France)</option>
+            <option value="+81">+81 (Japan)</option>
+            <option value="+86">+86 (China)</option>
+            <option value="+971">+971 (UAE)</option>
+            <option value="+966">+966 (Saudi Arabia)</option>
+            <input type="tel" id="phoneNumber" 
+            placeholder="Enter your phone number" 
+           
+            required>
+          </select>
+          
+        </div>
+        <small class="form-text"></small>
+      </div>
+
+      <!-- Job Selection -->
+      <div class="form-group">
+        <label for="jobSelect">Select Job:</label>
+        <select id="jobSelect" required>
+          <option value="" disabled selected>Select a job</option>
+          <!-- Jobs will be dynamically added here -->
+        </select>
+      </div>
+	    <div class="form-group">
+        <label for="skillSelect">Skill Requirement:</label>
+        <select id="skillSelect" required disabled>
+          <option value="" disabled selected>Select a job first</option>
+          <!-- Skills will be dynamically added here -->
+        </select>
+      </div>
+
+	  
+
+      <!-- Resume Upload -->
+      <div class="form-group">
+        <label for="resumeUpload">Upload Resume:</label>
+        <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" required>
+      </div>
+
+      <!-- Cover Letter -->
+      <div class="form-group">
+        <label for="coverLetter">Cover Letter:</label>
+        <textarea id="coverLetter" placeholder="Write a compelling cover letter explaining why you're the perfect candidate for this position..." rows="6" required></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit">Submit Application</button>
+    </form>
+
+    <!-- Success Message -->
+    <p id="applySuccessMessage" class="hidden">Application submitted successfully!</p>
+  </div>
+
+  <script src="apply_job.js"></script>
+</body>
+</html>

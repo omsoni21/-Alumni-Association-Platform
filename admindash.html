@@ -1,0 +1,2818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f6fa;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            padding: 0.8rem 1.5rem;
+            transition: background 0.3s;
+        }
+
+        .nav-links li:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            width: calc(100% - 250px);
+        }
+
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 1.8rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* Recent Activity */
+        .recent-activity {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .recent-activity h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Pending Approvals Section */
+        .pending-approvals {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .approval-list {
+            list-style: none;
+        }
+
+        .approval-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .approval-item:last-child {
+            border-bottom: none;
+        }
+
+        .approval-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .approve-btn, .reject-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .approve-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .reject-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background-color: #45a049;
+        }
+
+        .reject-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .user-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .user-list {
+            display: none;
+        }
+
+        .user-list.active {
+            display: block;
+        }
+
+        .user-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .user-info strong {
+            color: #333;
+        }
+
+        .user-info small {
+            color: #666;
+        }
+
+        /* Member Styles */
+        .member-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .action-btn.approve {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .action-btn.reject {
+            background-color: #f44336;
+            color: white;
+        }
+        .action-btn.activate {
+            background-color: #2196F3;
+            color: white;
+        }
+        .action-btn.deactivate {
+            background-color: #ff9800;
+            color: white;
+        }
+        .action-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        /* Gallery Modal Styles */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+
+        .gallery-modal-content {
+            position: relative;
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 10px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .gallery-item-info {
+            padding: 10px;
+            background: white;
+        }
+
+        .gallery-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .gallery-item-category {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .gallery-item-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .gallery-action-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-action-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .image-preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1100;
+        }
+
+        .image-preview-content {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            margin: 2% auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-preview-content img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .preview-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .preview-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .preview-control-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .preview-control-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin Panel</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="user_management.html"><i class="fas fa-users"></i> User Management</a></li>
+            <li><a href="alumni_management.html"><i class="fas fa-graduation-cap"></i> Alumni Management</a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="Alumni_home.html"><i class="fas fa-graduation-cap"></i> Alumni Portal</a></li>
+            <li><a href="admin_log.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Dashboard Overview</h1>
+            <div class="user-info">
+                <img src="logo.png" alt="Admin">
+                <span>admin@sistecgn.ac.in</span>
+            </div>
+        </div>
+
+        <div class="dashboard-cards">
+            <div class="card" onclick="showUserTypeModal()" style="cursor: pointer;">
+                <h3>Total Users</h3>
+                <p id="totalUsers">0</p>
+                <button onclick="showAddUserModal(event)" style="background-color: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 10px; font-size: 12px;">
+                    Add New User
+                </button>
+            </div>
+            <div class="card" onclick="showDonationModal()" style="cursor: pointer;">
+                <h3>Total Donations</h3>
+                <p id="totalDonationsUSD">$0</p>
+                <p id="totalDonationsINR">₹0</p>
+            </div>
+            <div class="card" onclick="window.location.href='job_management.html'" style="cursor: pointer;">
+                <h3>Manage Jobs</h3>
+                <p id="totalJobs">0</p>
+            </div>
+            <div class="card" onclick="showApplicationsModal()" style="cursor: pointer;">
+                <h3>View Applications</h3>
+                <p id="totalApplications">0</p>
+            </div>
+            <div class="card" onclick="showGalleryModal()" style="cursor: pointer;">
+                <h3>Manage Gallery</h3>
+                <p id="totalGalleryItems">0</p>
+            </div>
+            <div class="card" onclick="window.location.href='social-feeds.html'" style="cursor: pointer;">
+                <h3>Social Feed</h3>
+                <p id="totalPosts">0</p>
+            </div>
+            <div class="card" onclick="showAlumniDetails()" style="cursor: pointer;">
+                <h3>Total Alumni</h3>
+                <p id="totalAlumni">0</p>
+                <button onclick="showAddAlumniModal(event)" style="background-color: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 10px; font-size: 12px;">
+                    Add New Alumni
+                </button>
+            </div>
+        </div>
+
+        <div class="recent-activity">
+            <h2>Recent Activity</h2>
+            <ul class="activity-list">
+              
+            </ul>
+        </div>
+
+        <div class="pending-approvals">
+            <h2>Pending Approvals</h2>
+            <ul class="approval-list" id="approvalList">
+                <!-- Approval items will be added here dynamically -->
+            </ul>
+        </div>
+
+       
+        </div>
+    </div>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>User Details</h2>
+                <button class="close-modal" onclick="closeUserModal()">&times;</button>
+            </div>
+            <div class="user-tabs">
+                <button class="tab-btn active" onclick="switchTab('users')">Users</button>
+                <button class="tab-btn" onclick="switchTab('alumni')">Alumni</button>
+            </div>
+            <div id="usersList" class="user-list active">
+                <!-- Users will be populated here -->
+            </div>
+            <div id="alumniList" class="user-list">
+                <!-- Alumni will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div id="donationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Donation Details</h2>
+                <button class="close-modal" onclick="closeDonationModal()">&times;</button>
+            </div>
+            <div class="user-tabs">
+                <button class="tab-btn active" onclick="switchDonationTab('recent')">Recent Donations</button>
+                <button class="tab-btn" onclick="switchDonationTab('top')">Top Donors</button>
+            </div>
+            <div id="recentDonations" class="user-list active">
+                <!-- Recent donations will be populated here -->
+            </div>
+            <div id="topDonors" class="user-list">
+                <!-- Top donors will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Modal -->
+    <div id="jobModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Job Management</h2>
+                <button class="close-modal" onclick="closeJobModal()">&times;</button>
+            </div>
+            <div class="user-tabs">
+                <button class="tab-btn active" onclick="switchJobTab('active')">Active Jobs</button>
+                <button class="tab-btn" onclick="switchJobTab('pending')">Pending Jobs</button>
+                <button class="tab-btn" onclick="switchJobTab('expired')">Expired Jobs</button>
+            </div>
+            <div id="activeJobs" class="user-list active">
+                <!-- Active jobs will be populated here -->
+            </div>
+            <div id="pendingJobs" class="user-list">
+                <!-- Pending jobs will be populated here -->
+            </div>
+            <div id="expiredJobs" class="user-list">
+                <!-- Expired jobs will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Form Modal -->
+    <div id="jobFormModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Add New Job</h2>
+                <button class="close-modal" onclick="closeJobFormModal()">&times;</button>
+            </div>
+            <form id="jobForm" onsubmit="handleJobFormSubmit(event)">
+                <div style="margin-bottom: 15px;">
+                    <label for="jobTitle" style="display: block; margin-bottom: 5px;">Job Title:</label>
+                    <input type="text" id="jobTitle" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="companyName" style="display: block; margin-bottom: 5px;">Company Name:</label>
+                    <input type="text" id="companyName" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="jobLocation" style="display: block; margin-bottom: 5px;">Location:</label>
+                    <input type="text" id="jobLocation" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="jobSalary" style="display: block; margin-bottom: 5px;">Salary:</label>
+                    <input type="text" id="jobSalary" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="jobDescription" style="display: block; margin-bottom: 5px;">Job Description:</label>
+                    <textarea id="jobDescription" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 100px;"></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="jobRequirements" style="display: block; margin-bottom: 5px;">Requirements:</label>
+                    <textarea id="jobRequirements" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 100px;"></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="jobExpiryDate" style="display: block; margin-bottom: 5px;">Expiry Date:</label>
+                    <input type="date" id="jobExpiryDate" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Add Job</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Applications Modal -->
+    <div id="applicationsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Job Applications</h2>
+                <button class="close-modal" onclick="closeApplicationsModal()">&times;</button>
+            </div>
+            <div class="user-tabs">
+                <button class="tab-btn active" onclick="switchApplicationsTab('pending')">Pending</button>
+                <button class="tab-btn" onclick="switchApplicationsTab('reviewed')">Reviewed</button>
+                <button class="tab-btn" onclick="switchApplicationsTab('accepted')">Accepted</button>
+                <button class="tab-btn" onclick="switchApplicationsTab('rejected')">Rejected</button>
+            </div>
+            <div id="pendingApplications" class="user-list active">
+                <!-- Pending applications will be populated here -->
+            </div>
+            <div id="reviewedApplications" class="user-list">
+                <!-- Reviewed applications will be populated here -->
+            </div>
+            <div id="acceptedApplications" class="user-list">
+                <!-- Accepted applications will be populated here -->
+            </div>
+            <div id="rejectedApplications" class="user-list">
+                <!-- Rejected applications will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div id="galleryModal" class="gallery-modal">
+        <div class="gallery-modal-content">
+            <div class="modal-header">
+                <h2>Gallery Management</h2>
+                <button class="close-modal" onclick="closeGalleryModal()">&times;</button>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <button onclick="showGalleryUploadForm()" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-plus"></i> Add New Image
+                </button>
+            </div>
+            <div class="gallery-grid"></div>
+        </div>
+    </div>
+
+    <!-- Gallery Form Modal -->
+    <div id="galleryFormModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Add New Gallery Items</h2>
+                <button class="close-modal" onclick="closeGalleryFormModal()">&times;</button>
+            </div>
+            <form id="galleryForm" onsubmit="handleGalleryFormSubmit(event)">
+                <div style="margin-bottom: 15px;">
+                    <label for="galleryTitle" style="display: block; margin-bottom: 5px;">Title:</label>
+                    <input type="text" id="galleryTitle" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="galleryCategory" style="display: block; margin-bottom: 5px;">Category:</label>
+                    <select id="galleryCategory" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="events">Events</option>
+                        <option value="achievements">Achievements</option>
+                        <option value="campus">Campus</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="galleryDescription" style="display: block; margin-bottom: 5px;">Description:</label>
+                    <textarea id="galleryDescription" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 100px;"></textarea>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="galleryImage" style="display: block; margin-bottom: 5px;">Images (Multiple Selection):</label>
+                    <input type="file" id="galleryImage" accept="image/*" multiple required style="width: 100%; padding: 8px;">
+                    <div id="galleryImagePreview" style="margin-top: 10px; display: none;">
+                        <div id="previewContainer" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+                    </div>
+                </div>
+                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Add to Gallery</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Type Selection Modal -->
+    <div id="userTypeModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Approved Users</h2>
+                <button class="close-modal" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+            </div>
+            <div style="padding: 20px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <input type="text" id="userSearch" placeholder="Search users..." style="padding: 8px; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
+                    <button onclick="filterUsers()" style="padding: 8px 16px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-search"></i> Search
+                </button>
+                </div>
+                <div style="max-height: 500px; overflow-y: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f5f6fa;">
+                                <th style="padding: 12px; text-align: left;">Name</th>
+                                <th style="padding: 12px; text-align: left;">Email</th>
+                                <th style="padding: 12px; text-align: left;">Role</th>
+                                <th style="padding: 12px; text-align: left;">Status</th>
+                                <th style="padding: 12px; text-align: left;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userDetailsTable">
+                            <!-- User details will be dynamically populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Add this before the closing body tag -->
+    <div id="imagePreviewModal" class="image-preview-modal">
+        <div class="image-preview-content">
+            <span class="preview-close-btn">&times;</span>
+            <img id="previewImage" src="" alt="Preview">
+            <div class="preview-controls">
+                <button class="preview-control-btn" onclick="zoomImage(1.2)">Zoom In</button>
+                <button class="preview-control-btn" onclick="zoomImage(0.8)">Zoom Out</button>
+                <button class="preview-control-btn" onclick="rotateImage(90)">Rotate</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Alumni Modal -->
+    <div id="addAlumniModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Add New Alumni</h2>
+                <button class="close-modal" onclick="closeAddAlumniModal()">&times;</button>
+            </div>
+            <div style="padding: 20px;">
+                <div class="form-tabs" style="margin-bottom: 20px;">
+                    <button class="tab-btn active" onclick="switchAlumniTab('single')">Single Entry</button>
+                    <button class="tab-btn" onclick="switchAlumniTab('bulk')">Bulk Upload</button>
+                </div>
+
+                <!-- Single Entry Form -->
+                <form id="addAlumniForm" onsubmit="handleAddAlumni(event)" class="alumni-form active">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="alumniName" style="display: block; margin-bottom: 5px;">Full Name:</label>
+                        <input type="text" id="alumniName" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="alumniEmail" style="display: block; margin-bottom: 5px;">Email:</label>
+                        <input type="email" id="alumniEmail" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="alumniPassword" style="display: block; margin-bottom: 5px;">Password:</label>
+                        <input type="password" id="alumniPassword" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="alumniYear" style="display: block; margin-bottom: 5px;">Graduation Year:</label>
+                        <select id="alumniYear" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="">Select Year</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="alumniBranch" style="display: block; margin-bottom: 5px;">Branch:</label>
+                        <select id="alumniBranch" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="">Select Branch</option>
+                            <option value="CSE">Computer Science & Engineering</option>
+                            <option value="IT">Information Technology</option>
+                            <option value="ECE">Electronics & Communication</option>
+                            <option value="EE">Electrical Engineering</option>
+                            <option value="ME">Mechanical Engineering</option>
+                            <option value="CE">Civil Engineering</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="alumniRoll" style="display: block; margin-bottom: 5px;">Roll Number:</label>
+                        <input type="text" id="alumniRoll" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="alumniCompany" style="display: block; margin-bottom: 5px;">Current Company (Optional):</label>
+                        <input type="text" id="alumniCompany" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="alumniPosition" style="display: block; margin-bottom: 5px;">Position (Optional):</label>
+                        <input type="text" id="alumniPosition" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Add Alumni</button>
+                </form>
+
+                <!-- Bulk Upload Form -->
+                <form id="bulkAlumniForm" onsubmit="handleBulkAlumni(event)" class="alumni-form" style="display: none;">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="defaultPassword" style="display: block; margin-bottom: 5px;">Default Password for All Alumni:</label>
+                        <input type="password" id="defaultPassword" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="csvFile" style="display: block; margin-bottom: 5px;">Upload CSV File:</label>
+                        <input type="file" id="csvFile" accept=".csv" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <small style="color: #666; display: block; margin-top: 5px;">Download <a href="#" onclick="downloadCSVTemplate()">CSV Template</a></small>
+                    </div>
+                    <div style="margin-bottom: 15px; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">
+                        <h4 style="margin: 0 0 10px 0;">Instructions:</h4>
+                        <p style="margin: 0;">1. Enter a default password that will be used for all alumni accounts</p>
+                        <p style="margin: 0;">2. Upload a CSV file with alumni data</p>
+                        <p style="margin: 0;">3. Required fields: Name, Email, Graduation Year, Branch, Roll Number</p>
+                        <p style="margin: 0;">2. Enter alumni data in CSV format (comma-separated values)</p>
+                        <p style="margin: 0;">3. Each line represents one alumni entry</p>
+                        <p style="margin: 0;">4. Required fields: Name, Email, Graduation Year, Branch, Roll Number</p>
+                        <p style="margin: 0;">5. Optional fields: Company, Position</p>
+                    </div>
+                    <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Upload Alumni</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Add New User</h2>
+                <button class="close-modal" onclick="closeAddUserModal()">&times;</button>
+            </div>
+            <div style="padding: 20px;">
+                <div class="form-tabs" style="margin-bottom: 20px;">
+                    <button class="tab-btn active" onclick="switchUserTab('single')">Single Entry</button>
+                    <button class="tab-btn" onclick="switchUserTab('bulk')">Bulk Upload</button>
+                </div>
+
+                <!-- Single Entry Form -->
+                <form id="addUserForm" onsubmit="handleAddUser(event)" class="user-form active">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="userName" style="display: block; margin-bottom: 5px;">Full Name:</label>
+                        <input type="text" id="userName" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="userEmail" style="display: block; margin-bottom: 5px;">Email:</label>
+                        <input type="email" id="userEmail" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="userPassword" style="display: block; margin-bottom: 5px;">Password:</label>
+                        <input type="password" id="userPassword" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="userRole" style="display: block; margin-bottom: 5px;">Role:</label>
+                        <select id="userRole" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="user">Regular User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="userPhone" style="display: block; margin-bottom: 5px;">Phone (Optional):</label>
+                        <input type="tel" id="userPhone" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="userAddress" style="display: block; margin-bottom: 5px;">Address (Optional):</label>
+                        <textarea id="userAddress" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 100px;"></textarea>
+                    </div>
+                    <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Add User</button>
+                </form>
+
+                <!-- Bulk Upload Form -->
+                <form id="bulkUserForm" onsubmit="handleBulkUser(event)" class="user-form" style="display: none;">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="defaultUserPassword" style="display: block; margin-bottom: 5px;">Default Password for All Users:</label>
+                        <input type="password" id="defaultUserPassword" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="userCsvFile" style="display: block; margin-bottom: 5px;">Upload CSV File:</label>
+                        <input type="file" id="userCsvFile" accept=".csv" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <small style="color: #666; display: block; margin-top: 5px;">Download <a href="#" onclick="downloadUserCSVTemplate()">CSV Template</a></small>
+                    </div>
+                    <div style="margin-bottom: 15px; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">
+                        <h4 style="margin: 0 0 10px 0;">Instructions:</h4>
+                        <p style="margin: 0;">1. Enter a default password that will be used for all user accounts</p>
+                        <p style="margin: 0;">2. Upload a CSV file with user data</p>
+                        <p style="margin: 0;">3. Required fields: Name, Email, Role</p>
+                        <p style="margin: 0;">4. Optional fields: Phone, Address</p>
+                    </div>
+                    <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Upload Users</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Define menu items
+        const menuItems = [
+            { icon: 'fa-home', text: 'Dashboard', link: '#' },
+            { icon: 'fa-users', text: 'Users', link: '#' },
+            { icon: 'fa-chart-bar', text: 'Analytics', link: '#' },
+            { icon: 'fa-cog', text: 'Settings', link: '#' },
+            { icon: 'fa-graduation-cap', text: 'Alumni Portal', link: 'Alumni_home.html' },
+            { icon: 'fa-sign-out-alt', text: 'Logout', link: 'admin_log.html' }
+        ];
+
+        // Function to populate sidebar
+        function populateSidebar() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.innerHTML = ''; // Clear existing items
+
+            menuItems.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <a href="${item.link}">
+                        <i class="fas ${item.icon}"></i>
+                        ${item.text}
+                    </a>
+                `;
+                navLinks.appendChild(li);
+            });
+        }
+
+        // Function to load pending approvals
+        function loadPendingApprovals() {
+            const approvalList = document.getElementById('approvalList');
+            const pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')) || [];
+            
+            approvalList.innerHTML = '';
+            
+            if (pendingUsers.length === 0) {
+                const noPending = document.createElement('div');
+                noPending.style.cssText = 'text-align: center; padding: 20px; color: #666;';
+                noPending.textContent = 'No pending approvals';
+                approvalList.appendChild(noPending);
+                return;
+            }
+            
+            pendingUsers.forEach((user, index) => {
+                const li = document.createElement('li');
+                li.className = 'approval-item';
+                li.innerHTML = `
+                    <div>
+                        <strong>${user.name}</strong>
+                        <p>${user.email}</p>
+                        <small>Registration Date: ${new Date(user.registrationDate).toLocaleDateString()}</small>
+                    </div>
+                    <div class="approval-actions">
+                        <button class="approve-btn" onclick="handleApproval('${user.email}', true)">Approve</button>
+                        <button class="reject-btn" onclick="handleApproval('${user.email}', false)">Reject</button>
+                    </div>
+                `;
+                approvalList.appendChild(li);
+            });
+        }
+
+        // Function to handle approval/rejection
+        function handleApproval(email, isApproved) {
+            if (isApproved) {
+                // Update user status to approved
+                const userData = JSON.parse(localStorage.getItem(email));
+                userData.approved = true;
+                localStorage.setItem(email, JSON.stringify(userData));
+                
+                // Add to recent activity
+                const activity = `User approved - ${userData.name}`;
+                addRecentActivity(activity);
+            } else {
+                // Remove user data if rejected
+                localStorage.removeItem(email);
+                
+                // Add to recent activity
+                const userData = JSON.parse(localStorage.getItem(email));
+                const activity = `User rejected - ${userData.name}`;
+                addRecentActivity(activity);
+            }
+            
+            // Remove from pending
+            let pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')) || [];
+            pendingUsers = pendingUsers.filter(u => u.email !== email);
+            localStorage.setItem('pendingUsers', JSON.stringify(pendingUsers));
+            
+            // Reload the list
+            loadPendingApprovals();
+        }
+
+        // Function to update total users count
+        function updateTotalUsers() {
+            let totalUsers = 0;
+            let totalAlumni = 0;
+            let totalRegularUsers = 0;
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key !== 'pendingUsers' && key !== 'loggedInUser' && key !== 'jobs' && 
+                    key !== 'jobApplications' && key !== 'donations' && key !== 'galleryItems') {
+                    const userData = JSON.parse(localStorage.getItem(key));
+                    if (userData && userData.approved) {
+                        if (userData.role === 'alumni') {
+                            totalAlumni++;
+                        } else {
+                            totalRegularUsers++;
+                        }
+                        totalUsers++;
+                    }
+                }
+            }
+            
+            document.getElementById('totalUsers').innerHTML = `
+                <div style="font-size: 1.5rem;">${totalUsers}</div>
+                <div style="font-size: 0.8rem; color: #666;">
+                    Alumni: ${totalAlumni} | Users: ${totalRegularUsers}
+                </div>
+            `;
+        }
+
+        // Function to add recent activity
+        function addRecentActivity(activity) {
+            const activityList = document.querySelector('.activity-list');
+            const li = document.createElement('li');
+            li.textContent = activity;
+            activityList.insertBefore(li, activityList.firstChild);
+            
+            // Keep only last 5 activities
+            if (activityList.children.length > 5) {
+                activityList.removeChild(activityList.lastChild);
+            }
+        }
+
+        // Modal functions
+        function showUserModal() {
+            document.getElementById('userModal').style.display = 'block';
+            loadUserLists();
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').style.display = 'none';
+        }
+
+        function switchTab(tabName) {
+            // Update active tab button
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show selected tab content
+            document.querySelectorAll('.user-list').forEach(list => {
+                list.classList.remove('active');
+            });
+            document.getElementById(tabName + 'List').classList.add('active');
+        }
+
+        // Function to load user lists
+        function loadUserLists() {
+            // Get all users from localStorage
+            const users = [];
+            const alumni = [];
+            const pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')) || [];
+            
+            // Get all approved users
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key !== 'pendingUsers' && key !== 'loggedInUser' && key !== 'jobs' && 
+                    key !== 'jobApplications' && key !== 'donations' && key !== 'galleryItems') {
+                    const userData = JSON.parse(localStorage.getItem(key));
+                    if (userData && userData.approved) {
+                        if (userData.role === 'alumni') {
+                            alumni.push(userData);
+                        } else {
+                        users.push(userData);
+                        }
+                    }
+                }
+            }
+
+            const usersList = document.getElementById('usersList');
+            const alumniList = document.getElementById('alumniList');
+
+            // Clear existing lists
+            usersList.innerHTML = '';
+            alumniList.innerHTML = '';
+
+            // Add headers to each list
+            const usersHeader = document.createElement('div');
+            usersHeader.className = 'list-header';
+            usersHeader.innerHTML = `
+                <div style="display: grid; grid-template-columns: 2fr 2fr 1fr 1fr; gap: 10px; padding: 10px; background: #f5f6fa; border-radius: 5px; margin-bottom: 10px;">
+                    <strong>Name</strong>
+                    <strong>Email</strong>
+                    <strong>Status</strong>
+                    <strong>Actions</strong>
+                </div>
+            `;
+            usersList.appendChild(usersHeader);
+
+            const alumniHeader = document.createElement('div');
+            alumniHeader.className = 'list-header';
+            alumniHeader.innerHTML = `
+                <div style="display: grid; grid-template-columns: 2fr 2fr 1fr 1fr 1fr; gap: 10px; padding: 10px; background: #f5f6fa; border-radius: 5px; margin-bottom: 10px;">
+                    <strong>Name</strong>
+                    <strong>Email</strong>
+                    <strong>Academic Year</strong>
+                    <strong>Branch</strong>
+                    <strong>Actions</strong>
+                </div>
+            `;
+            alumniList.appendChild(alumniHeader);
+
+            // Populate users list
+            users.forEach(user => {
+                const userItem = document.createElement('div');
+                userItem.className = 'user-item';
+                userItem.style.cssText = `
+                    display: grid;
+                    grid-template-columns: 2fr 2fr 1fr 1fr;
+                    gap: 10px;
+                    padding: 15px;
+                    border-bottom: 1px solid #eee;
+                    align-items: center;
+                `;
+                userItem.innerHTML = `
+                    <div>
+                        <strong>${user.name}</strong>
+                    </div>
+                    <div>
+                        <small>${user.email}</small>
+                    </div>
+                    <div>
+                        <span style="padding: 5px 10px; background: #4CAF50; color: white; border-radius: 15px; font-size: 12px;">Active</span>
+                    </div>
+                    <div class="member-actions" style="display: flex; gap: 5px;">
+                        <button class="action-btn view" onclick="viewUserDetails('${user.email}')">View</button>
+                        <button class="action-btn deactivate" onclick="toggleUserStatus('${user.email}')">Deactivate</button>
+                    </div>
+                `;
+                usersList.appendChild(userItem);
+            });
+
+            // Populate alumni list
+            alumni.forEach(user => {
+                const alumniItem = document.createElement('div');
+                alumniItem.className = 'user-item';
+                alumniItem.style.cssText = `
+                    display: grid;
+                    grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+                    gap: 10px;
+                    padding: 15px;
+                    border-bottom: 1px solid #eee;
+                    align-items: center;
+                `;
+                alumniItem.innerHTML = `
+                    <div>
+                        <strong>${user.name}</strong>
+                    </div>
+                    <div>
+                        <small>${user.email}</small>
+                    </div>
+                    <div>
+                        <small>${user.academicYear}</small>
+                    </div>
+                    <div>
+                        <small>${user.branch}</small>
+                    </div>
+                    <div class="member-actions" style="display: flex; gap: 5px;">
+                        <button class="action-btn view" onclick="viewUserDetails('${user.email}')">View</button>
+                        <button class="action-btn deactivate" onclick="toggleUserStatus('${user.email}')">Deactivate</button>
+                    </div>
+                `;
+                alumniList.appendChild(alumniItem);
+            });
+
+            // Add "No users found" message if lists are empty
+            if (users.length === 0) {
+                const noUsers = document.createElement('div');
+                noUsers.style.cssText = 'text-align: center; padding: 20px; color: #666;';
+                noUsers.textContent = 'No regular users found';
+                usersList.appendChild(noUsers);
+            }
+
+            if (alumni.length === 0) {
+                const noAlumni = document.createElement('div');
+                noAlumni.style.cssText = 'text-align: center; padding: 20px; color: #666;';
+                noAlumni.textContent = 'No alumni found';
+                alumniList.appendChild(noAlumni);
+            }
+
+            // Update total users count
+            updateTotalUsers();
+        }
+
+        // Update the viewUserDetails function to use email as identifier
+        function viewUserDetails(userEmail) {
+            const userData = JSON.parse(localStorage.getItem(userEmail));
+            
+            if (userData) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.display = 'block';
+                modal.innerHTML = `
+                    <div class="modal-content" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h2>User Details</h2>
+                            <button class="close-modal" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                                <div style="width: 100px; height: 100px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-user" style="font-size: 40px; color: #666;"></i>
+                                </div>
+                                <div>
+                                    <h3 style="margin-bottom: 10px;">${userData.name}</h3>
+                                    <p><strong>Email:</strong> ${userData.email}</p>
+                                    <p><strong>Role:</strong> ${userData.role || 'User'}</p>
+                                    <p><strong>Status:</strong> ${userData.approved ? 'Active' : 'Inactive'}</p>
+                                </div>
+                            </div>
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 8px;">
+                                <h4 style="margin-bottom: 10px;">Additional Information</h4>
+                                    <p><strong>Registration Date:</strong> ${new Date(userData.registrationDate).toLocaleDateString()}</p>
+                                ${userData.phone ? `<p><strong>Phone:</strong> ${userData.phone}</p>` : ''}
+                                ${userData.address ? `<p><strong>Address:</strong> ${userData.address}</p>` : ''}
+                                ${userData.bio ? `<p><strong>Bio:</strong> ${userData.bio}</p>` : ''}
+                                </div>
+                            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                                <button onclick="toggleUserStatus('${userData.email}')" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    ${userData.approved ? 'Deactivate User' : 'Activate User'}
+                                </button>
+                                <button onclick="deleteUser('${userData.email}')" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    Delete User
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        // Update the toggleUserStatus function to use email as identifier
+        function toggleUserStatus(userEmail) {
+            if (confirm('Are you sure you want to change this user\'s status?')) {
+                const userData = JSON.parse(localStorage.getItem(userEmail));
+                if (userData) {
+                    userData.approved = !userData.approved;
+                    localStorage.setItem(userEmail, JSON.stringify(userData));
+                    loadUserLists();
+                    
+                    // Add to recent activity
+                    const activity = `User status changed - ${userData.name} (${userData.approved ? 'Approved' : 'Deactivated'})`;
+                    addRecentActivity(activity);
+                }
+            }
+        }
+
+        // Donation functions
+        function showDonationModal() {
+            document.getElementById('donationModal').style.display = 'block';
+            loadDonationLists();
+        }
+
+        function closeDonationModal() {
+            document.getElementById('donationModal').style.display = 'none';
+        }
+
+        function switchDonationTab(tabName) {
+            // Update active tab button
+            document.querySelectorAll('#donationModal .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show selected tab content
+            document.querySelectorAll('#donationModal .user-list').forEach(list => {
+                list.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Donations').classList.add('active');
+        }
+
+        function loadDonationLists() {
+            const donations = JSON.parse(localStorage.getItem('donations')) || [];
+            const recentDonations = document.getElementById('recentDonations');
+            const topDonors = document.getElementById('topDonors');
+
+            // Clear existing lists
+            recentDonations.innerHTML = '';
+            topDonors.innerHTML = '';
+
+            // Sort donations by date (most recent first)
+            const sortedByDate = [...donations].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Sort donations by amount (highest first)
+            const sortedByAmount = [...donations].sort((a, b) => b.amount - a.amount);
+
+            // Populate recent donations
+            sortedByDate.forEach(donation => {
+                const donationItem = document.createElement('div');
+                donationItem.className = 'user-item';
+                const amountUSD = (parseFloat(donation.amount) / 83.0).toFixed(2);
+                donationItem.innerHTML = `
+                    <div class="user-info">
+                        <strong>${donation.donorName}</strong>
+                        <small>Amount: $${amountUSD} (₹${donation.amount})</small>
+                        <small>Date: ${new Date(donation.date).toLocaleDateString()}</small>
+                        <small>Purpose: ${donation.purpose || 'General Donation'}</small>
+                    </div>
+                `;
+                recentDonations.appendChild(donationItem);
+            });
+
+            // Populate top donors
+            sortedByAmount.forEach(donation => {
+                const donorItem = document.createElement('div');
+                donorItem.className = 'user-item';
+                const amountUSD = (parseFloat(donation.amount) / 83.0).toFixed(2);
+                donorItem.innerHTML = `
+                    <div class="user-info">
+                        <strong>${donation.donorName}</strong>
+                        <small>Total Donated: $${amountUSD} (₹${donation.amount})</small>
+                        <small>Last Donation: ${new Date(donation.date).toLocaleDateString()}</small>
+                    </div>
+                `;
+                topDonors.appendChild(donorItem);
+            });
+
+            // Update total donations amount
+            updateTotalDonations();
+        }
+
+        function updateTotalDonations() {
+            const donations = JSON.parse(localStorage.getItem('donations')) || [];
+            const totalAmountINR = donations.reduce((sum, donation) => sum + parseFloat(donation.amount), 0);
+            const totalAmountUSD = totalAmountINR / 83.0; // Using approximate conversion rate of 1 USD = 83 INR
+            
+            document.getElementById('totalDonationsUSD').textContent = `$${totalAmountUSD.toFixed(2)}`;
+            document.getElementById('totalDonationsINR').textContent = `₹${totalAmountINR.toFixed(2)}`;
+        }
+
+        // Function to clear all donations
+        function clearAllDonations() {
+            if (confirm('Are you sure you want to clear all donation records? This action cannot be undone.')) {
+                localStorage.removeItem('donations');
+                updateTotalDonations();
+                loadDonationLists();
+                alert('All donation records have been cleared.');
+            }
+        }
+
+        // Close donation modal when clicking outside
+        window.onclick = function(event) {
+            const userModal = document.getElementById('userModal');
+            const donationModal = document.getElementById('donationModal');
+            const userTypeModal = document.getElementById('userTypeModal');
+            
+            if (event.target === userModal) {
+                closeUserModal();
+            }
+            if (event.target === donationModal) {
+                closeDonationModal();
+            }
+            if (event.target === userTypeModal) {
+                closeUserTypeModal();
+            }
+        }
+
+        // Job Management Functions
+        function showJobModal() {
+            document.getElementById('jobModal').style.display = 'block';
+            loadJobLists();
+        }
+
+        function closeJobModal() {
+            document.getElementById('jobModal').style.display = 'none';
+        }
+
+        function switchJobTab(tabName) {
+            // Update active tab button
+            document.querySelectorAll('#jobModal .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show selected tab content
+            document.querySelectorAll('#jobModal .user-list').forEach(list => {
+                list.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Jobs').classList.add('active');
+        }
+
+        function loadJobLists() {
+            const jobs = JSON.parse(localStorage.getItem('jobs')) || [];
+            const activeJobs = document.getElementById('activeJobs');
+            const pendingJobs = document.getElementById('pendingJobs');
+            const expiredJobs = document.getElementById('expiredJobs');
+
+            // Clear existing lists
+            activeJobs.innerHTML = '';
+            pendingJobs.innerHTML = '';
+            expiredJobs.innerHTML = '';
+
+            const currentDate = new Date();
+
+            // Populate job lists
+            jobs.forEach(job => {
+                const jobItem = document.createElement('div');
+                jobItem.className = 'user-item';
+                const expiryDate = new Date(job.expiryDate);
+                const status = expiryDate < currentDate ? 'expired' : job.status || 'active';
+
+                jobItem.innerHTML = `
+                    <div class="user-info">
+                        <strong>${job.title}</strong>
+                        <small>Company: ${job.company}</small>
+                        <small>Location: ${job.location}</small>
+                        <small>Salary: ${job.salary}</small>
+                        <small>Expiry Date: ${new Date(job.expiryDate).toLocaleDateString()}</small>
+                    </div>
+                    <div class="member-actions">
+                        <button class="action-btn ${status === 'active' ? 'deactivate' : 'activate'}" 
+                                onclick="toggleJobStatus('${job.id}')">
+                            ${status === 'active' ? 'Deactivate' : 'Activate'}
+                        </button>
+                        <button class="action-btn remove" onclick="removeJob('${job.id}')">Remove</button>
+                    </div>
+                `;
+
+                if (status === 'active') {
+                    activeJobs.appendChild(jobItem);
+                } else if (status === 'pending') {
+                    pendingJobs.appendChild(jobItem);
+                } else {
+                    expiredJobs.appendChild(jobItem);
+                }
+            });
+
+            // Update total jobs count
+            updateTotalJobs();
+        }
+
+        function removeJob(jobId) {
+            if (confirm('Are you sure you want to remove this job?')) {
+                let jobs = JSON.parse(localStorage.getItem('jobs')) || [];
+                jobs = jobs.filter(j => j.id !== jobId);
+                localStorage.setItem('jobs', JSON.stringify(jobs));
+                loadJobLists();
+                alert('Job removed successfully.');
+            }
+        }
+
+        function toggleJobStatus(jobId) {
+            let jobs = JSON.parse(localStorage.getItem('jobs')) || [];
+            const jobIndex = jobs.findIndex(j => j.id === jobId);
+            if (jobIndex !== -1) {
+                jobs[jobIndex].status = jobs[jobIndex].status === 'active' ? 'inactive' : 'active';
+                localStorage.setItem('jobs', JSON.stringify(jobs));
+                loadJobLists();
+            }
+        }
+
+        function updateTotalJobs() {
+            const jobs = JSON.parse(localStorage.getItem('jobs')) || [];
+            document.getElementById('totalJobs').textContent = jobs.length;
+        }
+
+        // Job Form Functions
+        function showJobFormModal() {
+            document.getElementById('jobFormModal').style.display = 'block';
+        }
+
+        function closeJobFormModal() {
+            document.getElementById('jobFormModal').style.display = 'none';
+            document.getElementById('jobForm').reset();
+        }
+
+        function handleJobFormSubmit(event) {
+            event.preventDefault();
+            
+            const job = {
+                id: Date.now().toString(),
+                title: document.getElementById('jobTitle').value,
+                company: document.getElementById('companyName').value,
+                location: document.getElementById('jobLocation').value,
+                salary: document.getElementById('jobSalary').value,
+                description: document.getElementById('jobDescription').value,
+                requirements: document.getElementById('jobRequirements').value,
+                expiryDate: document.getElementById('jobExpiryDate').value,
+                status: 'active',
+                datePosted: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            let jobs = JSON.parse(localStorage.getItem('jobs')) || [];
+            jobs.push(job);
+            localStorage.setItem('jobs', JSON.stringify(jobs));
+
+            // Update UI
+            loadJobLists();
+            closeJobFormModal();
+            alert('Job added successfully!');
+        }
+
+        // Applications Management Functions
+        function showApplicationsModal() {
+            document.getElementById('applicationsModal').style.display = 'block';
+            loadApplicationsLists();
+        }
+
+        function closeApplicationsModal() {
+            document.getElementById('applicationsModal').style.display = 'none';
+        }
+
+        function switchApplicationsTab(tabName) {
+            // Update active tab button
+            document.querySelectorAll('#applicationsModal .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show selected tab content
+            document.querySelectorAll('#applicationsModal .user-list').forEach(list => {
+                list.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Applications').classList.add('active');
+        }
+
+        function loadApplicationsLists() {
+            const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            const pendingApplications = document.getElementById('pendingApplications');
+            const reviewedApplications = document.getElementById('reviewedApplications');
+            const acceptedApplications = document.getElementById('acceptedApplications');
+            const rejectedApplications = document.getElementById('rejectedApplications');
+
+            // Clear existing lists
+            pendingApplications.innerHTML = '';
+            reviewedApplications.innerHTML = '';
+            acceptedApplications.innerHTML = '';
+            rejectedApplications.innerHTML = '';
+
+            if (applications.length === 0) {
+                const noApplications = document.createElement('div');
+                noApplications.className = 'no-applications';
+                noApplications.innerHTML = `
+                    <h3>No applications found</h3>
+                    <p>There are no job applications at the moment.</p>
+                `;
+                pendingApplications.appendChild(noApplications);
+                return;
+            }
+
+            applications.forEach(application => {
+                const applicationItem = document.createElement('div');
+                applicationItem.className = 'user-item';
+                applicationItem.innerHTML = `
+                    <div class="user-info">
+                        <strong>${application.candidateName}</strong>
+                        <small>Email: ${application.candidateEmail}</small>
+                        <small>Job: ${application.jobTitle}</small>
+                        <small>Applied: ${new Date(application.dateApplied).toLocaleDateString()}</small>
+                        <small>Status: ${application.status}</small>
+                    </div>
+                    <div class="member-actions">
+                        ${application.status === 'pending' ? `
+                            <button class="action-btn review" onclick="updateApplicationStatus('${application.id}', 'reviewed')">Review</button>
+                            <button class="action-btn accept" onclick="updateApplicationStatus('${application.id}', 'accepted')">Accept</button>
+                            <button class="action-btn reject" onclick="updateApplicationStatus('${application.id}', 'rejected')">Reject</button>
+                        ` : ''}
+                        ${application.status === 'reviewed' ? `
+                            <button class="action-btn accept" onclick="updateApplicationStatus('${application.id}', 'accepted')">Accept</button>
+                            <button class="action-btn reject" onclick="updateApplicationStatus('${application.id}', 'rejected')">Reject</button>
+                        ` : ''}
+                        <button class="action-btn view" onclick="viewApplicationDetails('${application.id}')">View Details</button>
+                    </div>
+                `;
+
+                switch (application.status) {
+                    case 'pending':
+                        pendingApplications.appendChild(applicationItem);
+                        break;
+                    case 'reviewed':
+                        reviewedApplications.appendChild(applicationItem);
+                        break;
+                    case 'accepted':
+                        acceptedApplications.appendChild(applicationItem);
+                        break;
+                    case 'rejected':
+                        rejectedApplications.appendChild(applicationItem);
+                        break;
+                }
+            });
+
+            // Update total applications count
+            updateTotalApplications();
+        }
+
+        function updateApplicationStatus(applicationId, newStatus) {
+            let applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            const applicationIndex = applications.findIndex(app => app.id === applicationId);
+            
+            if (applicationIndex !== -1) {
+                applications[applicationIndex].status = newStatus;
+                applications[applicationIndex].statusUpdated = new Date().toISOString();
+                localStorage.setItem('jobApplications', JSON.stringify(applications));
+                
+                // Add to recent activity
+                const activity = `Application ${newStatus} - ${applications[applicationIndex].candidateName}`;
+                addRecentActivity(activity);
+                
+                loadApplicationsLists();
+            }
+        }
+
+        function viewApplicationDetails(applicationId) {
+            const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            const application = applications.find(app => app.id === applicationId);
+            
+            if (application) {
+                // Create and show a modal with application details
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.display = 'block';
+                modal.innerHTML = `
+                    <div class="modal-content" style="max-width: 800px; background: #fff; border-radius: 15px; box-shadow: 0 5px 30px rgba(0,0,0,0.2);">
+                        <div class="modal-header" style="background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%); color: white; padding: 20px; border-radius: 15px 15px 0 0;">
+                            <h2 style="margin: 0; font-size: 1.8rem;">Application Details</h2>
+                            <button class="close-modal" onclick="this.parentElement.parentElement.parentElement.remove()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                        </div>
+                        <div style="padding: 30px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                                <div class="info-section" style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                                    <h3 style="color: #1a237e; margin-top: 0; border-bottom: 2px solid #e3f2fd; padding-bottom: 10px;">Candidate Information</h3>
+                                    <div style="display: grid; gap: 15px;">
+                                        <div>
+                                            <label style="color: #666; font-size: 0.9rem;">Full Name</label>
+                                            <p style="margin: 5px 0; font-size: 1.1rem; color: #333;">${application.candidateName}</p>
+                                        </div>
+                                        <div>
+                                            <label style="color: #666; font-size: 0.9rem;">Email Address</label>
+                                            <p style="margin: 5px 0; font-size: 1.1rem; color: #333;">${application.candidateEmail}</p>
+                                        </div>
+                                        <div>
+                                            <label style="color: #666; font-size: 0.9rem;">Phone Number</label>
+                                            <p style="margin: 5px 0; font-size: 1.1rem; color: #333;">${application.candidatePhone || 'Not provided'}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="info-section" style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                                    <h3 style="color: #1a237e; margin-top: 0; border-bottom: 2px solid #e3f2fd; padding-bottom: 10px;">Job Details</h3>
+                                    <div style="display: grid; gap: 15px;">
+                                        <div>
+                                            <label style="color: #666; font-size: 0.9rem;">Position</label>
+                                            <p style="margin: 5px 0; font-size: 1.1rem; color: #333;">${application.jobTitle}</p>
+                                        </div>
+                                        <div>
+                                            <label style="color: #666; font-size: 0.9rem;">Company</label>
+                                            <p style="margin: 5px 0; font-size: 1.1rem; color: #333;">${application.companyName}</p>
+                                        </div>
+                                        <div>
+                                            <label style="color: #666; font-size: 0.9rem;">Required Skills</label>
+                                            <p style="margin: 5px 0; font-size: 1.1rem; color: #333;">${application.skillRequirement}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-section" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+                                <h3 style="color: #1a237e; margin-top: 0; border-bottom: 2px solid #e3f2fd; padding-bottom: 10px;">Application Status</h3>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                                    <div>
+                                        <label style="color: #666; font-size: 0.9rem;">Current Status</label>
+                                        <p style="margin: 5px 0; font-size: 1.1rem; color: #333; text-transform: capitalize;">${application.status}</p>
+                                    </div>
+                                    <div>
+                                        <label style="color: #666; font-size: 0.9rem;">Applied On</label>
+                                        <p style="margin: 5px 0; font-size: 1.1rem; color: #333;">${new Date(application.dateApplied).toLocaleDateString()}</p>
+                                    </div>
+                                    ${application.statusUpdated ? `
+                                        <div>
+                                            <label style="color: #666; font-size: 0.9rem;">Status Updated</label>
+                                            <p style="margin: 5px 0; font-size: 1.1rem; color: #333;">${new Date(application.statusUpdated).toLocaleDateString()}</p>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+
+                            <div class="info-section" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+                                <h3 style="color: #1a237e; margin-top: 0; border-bottom: 2px solid #e3f2fd; padding-bottom: 10px;">Cover Letter</h3>
+                                <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                                    <p style="margin: 0; line-height: 1.6; color: #333;">${application.coverLetter || 'No cover letter provided'}</p>
+                                </div>
+                            </div>
+
+                            <div class="info-section" style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                                <h3 style="color: #1a237e; margin-top: 0; border-bottom: 2px solid #e3f2fd; padding-bottom: 10px;">Resume</h3>
+                                ${application.resume ? `
+                                    <a href="${application.resume}" target="_blank" style="display: inline-block; background: #1a237e; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+                                        <i class="fas fa-file-pdf" style="margin-right: 8px;"></i>View Resume
+                                    </a>
+                                ` : '<p style="color: #666;">No resume uploaded</p>'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        function updateTotalApplications() {
+            const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            document.getElementById('totalApplications').textContent = applications.length;
+        }
+
+        // Function to load and display applications
+        function loadApplications() {
+            const applicationsList = document.getElementById('applicationsList');
+            applicationsList.innerHTML = '';
+            
+            // Get applications from localStorage
+            const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            
+            applications.forEach(application => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${application.candidateName}</td>
+                    <td>${application.candidateEmail}</td>
+                    <td>${application.jobTitle}</td>
+                    <td>${application.companyName}</td>
+                    <td>${application.skillRequirement}</td>
+                    <td>
+                        <select class="status-select" data-id="${application.id}">
+                            <option value="Pending" ${application.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Under Review" ${application.status === 'Under Review' ? 'selected' : ''}>Under Review</option>
+                            <option value="Accepted" ${application.status === 'Accepted' ? 'selected' : ''}>Accepted</option>
+                            <option value="Rejected" ${application.status === 'Rejected' ? 'selected' : ''}>Rejected</option>
+                        </select>
+                    </td>
+                    <td>${new Date(application.dateApplied).toLocaleDateString()}</td>
+                    <td>
+                        <button class="view-resume-btn" data-resume="${application.resume}">View Resume</button>
+                        <button class="delete-application-btn" data-id="${application.id}">Delete</button>
+                    </td>
+                `;
+                applicationsList.appendChild(row);
+            });
+
+            // Add event listeners for status changes
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const applicationId = e.target.dataset.id;
+                    const newStatus = e.target.value;
+                    updateApplicationStatus(applicationId, newStatus);
+                });
+            });
+
+            // Add event listeners for resume viewing
+            document.querySelectorAll('.view-resume-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const resumeData = e.target.dataset.resume;
+                    viewResume(resumeData);
+                });
+            });
+
+            // Add event listeners for application deletion
+            document.querySelectorAll('.delete-application-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const applicationId = e.target.dataset.id;
+                    deleteApplication(applicationId);
+                });
+            });
+        }
+
+        // Function to view resume
+        function viewResume(resumeData) {
+            const resumeWindow = window.open('', '_blank');
+            resumeWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Resume</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 20px; }
+                            img { max-width: 100%; height: auto; }
+                        </style>
+                    </head>
+                    <body>
+                        <img src="${resumeData}" alt="Resume">
+                    </body>
+                </html>
+            `);
+        }
+
+        // Function to delete application
+        function deleteApplication(applicationId) {
+            if (confirm('Are you sure you want to delete this application?')) {
+                const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+                const updatedApplications = applications.filter(app => app.id !== applicationId);
+                localStorage.setItem('jobApplications', JSON.stringify(updatedApplications));
+                loadApplications();
+                alert('Application deleted successfully!');
+            }
+        }
+
+        // Load applications when the page loads
+        document.addEventListener('DOMContentLoaded', loadApplications);
+
+        // Gallery Management Functions
+        function updateTotalGalleryItems() {
+            const galleryItems = JSON.parse(localStorage.getItem('galleryItems')) || [];
+            document.getElementById('totalGalleryItems').textContent = galleryItems.length;
+        }
+
+        // Gallery Management Functions
+        function showGalleryModal() {
+            document.getElementById('galleryModal').style.display = 'block';
+            loadGalleryItems();
+            updateTotalGalleryItems(); // Update count when modal is opened
+        }
+
+        function loadGalleryItems() {
+            const galleryItems = JSON.parse(localStorage.getItem('galleryItems')) || [];
+            const galleryGrid = document.createElement('div');
+            galleryGrid.className = 'gallery-grid';
+
+            galleryItems.forEach(item => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" onclick="showImagePreview('${item.image}')">
+                    <div class="gallery-item-info">
+                        <div class="gallery-item-title">${item.title}</div>
+                        <div class="gallery-item-category">${item.category}</div>
+                        </div>
+                    <div class="gallery-item-actions">
+                        <button class="gallery-action-btn" onclick="editGalleryItem('${item.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="gallery-action-btn" onclick="deleteGalleryItem('${item.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                galleryGrid.appendChild(galleryItem);
+            });
+
+            const modalContent = document.querySelector('.gallery-modal-content');
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <h2>Gallery Management</h2>
+                    <button class="close-modal" onclick="closeGalleryModal()">&times;</button>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <button onclick="showGalleryUploadForm()" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-plus"></i> Add New Image
+                    </button>
+                </div>
+            `;
+            modalContent.appendChild(galleryGrid);
+            updateTotalGalleryItems(); // Update count after loading items
+        }
+
+        function showGalleryUploadForm() {
+            const modalContent = document.querySelector('.gallery-modal-content');
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <h2>Upload New Image</h2>
+                    <button class="close-modal" onclick="closeGalleryModal()">&times;</button>
+                </div>
+                <form id="galleryUploadForm" style="padding: 20px;">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px;">Title:</label>
+                        <input type="text" id="galleryTitle" required style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px;">Category:</label>
+                        <select id="galleryCategory" required style="width: 100%; padding: 8px;">
+                            <option value="events">Events</option>
+                            <option value="achievements">Achievements</option>
+                            <option value="campus">Campus</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px;">Description:</label>
+                        <textarea id="galleryDescription" style="width: 100%; padding: 8px; min-height: 100px;"></textarea>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px;">Image:</label>
+                        <input type="file" id="galleryImage" accept="image/*" required style="width: 100%; padding: 8px;">
+                        <div id="imagePreview" style="margin-top: 10px; display: none;">
+                            <img id="preview" src="" alt="Preview" style="max-width: 200px; max-height: 200px;">
+                        </div>
+                    </div>
+                    <button type="submit" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Upload Image
+                    </button>
+                </form>
+            `;
+
+            // Preview image before upload
+            document.getElementById('galleryImage').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('preview').src = e.target.result;
+                        document.getElementById('imagePreview').style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Handle form submission
+            document.getElementById('galleryUploadForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const file = document.getElementById('galleryImage').files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const galleryItem = {
+                            id: Date.now().toString(),
+                            title: document.getElementById('galleryTitle').value,
+                            category: document.getElementById('galleryCategory').value,
+                            description: document.getElementById('galleryDescription').value,
+                            image: e.target.result,
+                            dateAdded: new Date().toISOString()
+                        };
+
+                        let galleryItems = JSON.parse(localStorage.getItem('galleryItems')) || [];
+                        galleryItems.push(galleryItem);
+                        localStorage.setItem('galleryItems', JSON.stringify(galleryItems));
+
+                        loadGalleryItems();
+                        closeGalleryModal();
+                        updateTotalGalleryItems(); // Update count after adding new item
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function closeGalleryModal() {
+            document.getElementById('galleryModal').style.display = 'none';
+        }
+
+        function closeGalleryFormModal() {
+            document.getElementById('galleryFormModal').style.display = 'none';
+        }
+
+        function showImagePreview(imageSrc) {
+            const modal = document.getElementById('imagePreviewModal');
+            const img = document.getElementById('previewImage');
+            img.src = imageSrc;
+            img.style.transform = 'scale(1) rotate(0deg)';
+            modal.style.display = 'block';
+        }
+
+        function closeImagePreview() {
+            document.getElementById('imagePreviewModal').style.display = 'none';
+        }
+
+        function zoomImage(factor) {
+            const img = document.getElementById('previewImage');
+            const currentScale = parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1;
+            img.style.transform = `scale(${currentScale * factor}) rotate(${img.dataset.rotation || 0}deg)`;
+        }
+
+        function rotateImage(degrees) {
+            const img = document.getElementById('previewImage');
+            const currentRotation = parseInt(img.dataset.rotation || 0);
+            const newRotation = (currentRotation + degrees) % 360;
+            img.dataset.rotation = newRotation;
+            img.style.transform = `scale(${parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1}) rotate(${newRotation}deg)`;
+        }
+
+        // Close preview when clicking outside
+        document.querySelector('.image-preview-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImagePreview();
+            }
+        });
+
+        // Close preview with escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImagePreview();
+            }
+        });
+
+        // Close preview with close button
+        document.querySelector('.preview-close-btn').addEventListener('click', closeImagePreview);
+
+        // User Type Modal Functions
+        function showUserTypeModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            
+            // Get all approved users
+            const approvedUsers = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key !== 'pendingUsers' && key !== 'loggedInUser' && key !== 'jobs' && 
+                    key !== 'jobApplications' && key !== 'donations' && key !== 'galleryItems') {
+                    const userData = JSON.parse(localStorage.getItem(key));
+                    if (userData && userData.approved) {
+                        approvedUsers.push(userData);
+                    }
+                }
+            }
+            
+
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 800px;">
+                    <div class="modal-header">
+                        <h2>Approved Users</h2>
+                        <button class="close-modal" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                            <input type="text" id="userSearch" placeholder="Search users..." style="padding: 8px; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
+                            <button onclick="filterUsers()" style="padding: 8px 16px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                        <div style="max-height: 500px; overflow-y: auto;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: #f5f6fa;">
+                                        <th style="padding: 12px; text-align: left;">Name</th>
+                                        <th style="padding: 12px; text-align: left;">Email</th>
+                                        <th style="padding: 12px; text-align: left;">Role</th>
+                                        <th style="padding: 12px; text-align: left;">Status</th>
+                                        <th style="padding: 12px; text-align: left;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userDetailsTable">
+                                    ${approvedUsers.map(user => `
+                                        <tr style="border-bottom: 1px solid #eee;">
+                                            <td style="padding: 12px;">${user.name}</td>
+                                            <td style="padding: 12px;">${user.email}</td>
+                                            <td style="padding: 12px;">${user.role || 'User'}</td>
+                                            <td style="padding: 12px;">
+                                                <span style="padding: 5px 10px; background: #4CAF50; color: white; border-radius: 15px; font-size: 12px;">
+                                                    Active
+                                                </span>
+                                            </td>
+                                            <td style="padding: 12px;">
+                                                <button onclick="viewUserDetails('${user.email}')" style="padding: 5px 10px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">
+                                                    View
+                                                </button>
+                                                <button onclick="toggleUserStatus('${user.email}')" style="padding: 5px 10px; background: #ff9800; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                                    Deactivate
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function filterUsers() {
+            const searchTerm = document.getElementById('userSearch').value.toLowerCase();
+            const tableBody = document.getElementById('userDetailsTable');
+            const rows = tableBody.getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                const name = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+                const email = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || email.includes(searchTerm)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        function deleteUser(userEmail) {
+            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                localStorage.removeItem(userEmail);
+                showUserTypeModal(); // Refresh the user list
+                alert('User deleted successfully!');
+            }
+        }
+
+        // Call the functions when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            populateSidebar();
+            loadPendingApprovals();
+            updateTotalUsers();
+            updateTotalDonations();
+            updateTotalJobs();
+            updateTotalApplications();
+            updateTotalGalleryItems();
+            updateTotalPosts();
+
+            // Add add gallery button to gallery card
+            const galleryCard = document.querySelector('.card[onclick="showGalleryModal()"]');
+            const addGalleryButton = document.createElement('button');
+            addGalleryButton.textContent = 'Add Item';
+            addGalleryButton.style.cssText = `
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 10px;
+                font-size: 12px;
+            `;
+            addGalleryButton.onclick = function(e) {
+                e.stopPropagation(); // Prevent modal from opening
+                showGalleryFormModal();
+            };
+            galleryCard.appendChild(addGalleryButton);
+        });
+
+        function showAlumniDetails() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            
+            // Get all alumni data
+            const alumniData = JSON.parse(localStorage.getItem('alumniData')) || [];
+
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 1000px;">
+                    <div class="modal-header">
+                        <h2>Alumni Details</h2>
+                        <button class="close-modal" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                            <input type="text" id="alumniSearch" placeholder="Search alumni..." style="padding: 8px; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
+                            <button onclick="filterAlumni()" style="padding: 8px 16px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                        <div style="max-height: 600px; overflow-y: auto;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: #f5f6fa;">
+                                        <th style="padding: 12px; text-align: left;">Name</th>
+                                        <th style="padding: 12px; text-align: left;">Email</th>
+                                        <th style="padding: 12px; text-align: left;">Graduation Year</th>
+                                        <th style="padding: 12px; text-align: left;">Branch</th>
+                                        <th style="padding: 12px; text-align: left;">Current Company</th>
+                                        <th style="padding: 12px; text-align: left;">Position</th>
+                                        <th style="padding: 12px; text-align: left;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alumniDetailsTable">
+                                    ${alumniData.map(alumni => `
+                                        <tr style="border-bottom: 1px solid #eee;">
+                                            <td style="padding: 12px;">${alumni.name}</td>
+                                            <td style="padding: 12px;">${alumni.email}</td>
+                                            <td style="padding: 12px;">${alumni.graduationYear}</td>
+                                            <td style="padding: 12px;">${alumni.branch}</td>
+                                            <td style="padding: 12px;">${alumni.currentCompany || 'Not specified'}</td>
+                                            <td style="padding: 12px;">${alumni.position || 'Not specified'}</td>
+                                            <td style="padding: 12px;">
+                                                <button onclick="viewAlumniDetails('${alumni.id}')" style="padding: 5px 10px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px;">
+                                                    View
+                                                </button>
+                                                <button onclick="deleteAlumni('${alumni.id}')" style="padding: 5px 10px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function filterAlumni() {
+            const searchTerm = document.getElementById('alumniSearch').value.toLowerCase();
+            const tableBody = document.getElementById('alumniDetailsTable');
+            const rows = tableBody.getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                const name = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+                const email = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+                const branch = rows[i].getElementsByTagName('td')[3].textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || email.includes(searchTerm) || branch.includes(searchTerm)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        function viewAlumniDetails(alumniId) {
+            const alumniData = JSON.parse(localStorage.getItem('alumniData')) || [];
+            const alumni = alumniData.find(a => a.id === alumniId);
+            
+            if (alumni) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.display = 'block';
+                modal.innerHTML = `
+                    <div class="modal-content" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h2>Alumni Details</h2>
+                            <button class="close-modal" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                                <div style="width: 100px; height: 100px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <img src="${alumni.photo || 'default-avatar.png'}" alt="${alumni.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                </div>
+                                <div>
+                                    <h3 style="margin-bottom: 10px;">${alumni.name}</h3>
+                                    <p><strong>Email:</strong> ${alumni.email}</p>
+                                    <p><strong>Phone:</strong> ${alumni.phone || 'Not provided'}</p>
+                                    <p><strong>Graduation Year:</strong> ${alumni.graduationYear}</p>
+                                </div>
+                            </div>
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 8px;">
+                                <h4 style="margin-bottom: 10px;">Professional Information</h4>
+                                <p><strong>Branch:</strong> ${alumni.branch}</p>
+                                <p><strong>Current Company:</strong> ${alumni.currentCompany || 'Not specified'}</p>
+                                <p><strong>Position:</strong> ${alumni.position || 'Not specified'}</p>
+                                ${alumni.bio ? `<p><strong>Bio:</strong> ${alumni.bio}</p>` : ''}
+                            </div>
+                            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                                <button onclick="editAlumni('${alumni.id}')" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    Edit Details
+                                </button>
+                                <button onclick="deleteAlumni('${alumni.id}')" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    Delete Alumni
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        function deleteAlumni(alumniId) {
+            if (confirm('Are you sure you want to delete this alumni? This action cannot be undone.')) {
+                let alumniData = JSON.parse(localStorage.getItem('alumniData')) || [];
+                alumniData = alumniData.filter(a => a.id !== alumniId);
+                localStorage.setItem('alumniData', JSON.stringify(alumniData));
+                showAlumniDetails(); // Refresh the alumni list
+                alert('Alumni deleted successfully!');
+            }
+        }
+
+        function updateTotalPosts() {
+            const posts = JSON.parse(localStorage.getItem('posts')) || [];
+            document.getElementById('totalPosts').textContent = posts.length;
+        }
+
+        function deleteGalleryItem(itemId) {
+            if (confirm('Are you sure you want to delete this gallery item?')) {
+                let galleryItems = JSON.parse(localStorage.getItem('galleryItems')) || [];
+                galleryItems = galleryItems.filter(item => item.id !== itemId);
+                localStorage.setItem('galleryItems', JSON.stringify(galleryItems));
+                loadGalleryItems();
+                updateTotalGalleryItems(); // Update count after deletion
+                alert('Gallery item deleted successfully!');
+            }
+        }
+
+        function showAddAlumniModal(event) {
+            event.stopPropagation(); // Prevent the card click event
+            document.getElementById('addAlumniModal').style.display = 'block';
+        }
+
+        function closeAddAlumniModal() {
+            document.getElementById('addAlumniModal').style.display = 'none';
+            document.getElementById('addAlumniForm').reset();
+        }
+
+        function handleAddAlumni(event) {
+            event.preventDefault();
+            
+            const alumniData = {
+                id: Date.now().toString(),
+                name: document.getElementById('alumniName').value,
+                email: document.getElementById('alumniEmail').value,
+                password: document.getElementById('alumniPassword').value,
+                academicYear: document.getElementById('alumniYear').value,
+                branch: document.getElementById('alumniBranch').value,
+                rollNumber: document.getElementById('alumniRoll').value,
+                currentCompany: document.getElementById('alumniCompany').value,
+                position: document.getElementById('alumniPosition').value,
+                approved: true, // Auto-approve since admin is adding
+                registrationDate: new Date().toISOString(),
+                role: 'alumni'
+            };
+
+            // Check if email already exists
+            if (localStorage.getItem(alumniData.email)) {
+                alert('An account with this email already exists!');
+                return;
+            }
+
+            // Store alumni data
+            localStorage.setItem(alumniData.email, JSON.stringify(alumniData));
+
+            // Add to alumni data list
+            let alumniDataList = JSON.parse(localStorage.getItem('alumniData')) || [];
+            alumniDataList.push(alumniData);
+            localStorage.setItem('alumniData', JSON.stringify(alumniDataList));
+
+            // Add to recent activity
+            const activity = `New alumni added - ${alumniData.name}`;
+            addRecentActivity(activity);
+
+            // Update counts and close modal
+            updateTotalUsers();
+            updateTotalAlumni();
+            closeAddAlumniModal();
+            showAlumniDetails(); // Refresh the alumni list
+            alert('Alumni added successfully!');
+        }
+
+        function updateTotalAlumni() {
+            const alumniData = JSON.parse(localStorage.getItem('alumniData')) || [];
+            document.getElementById('totalAlumni').textContent = alumniData.length;
+        }
+
+        function switchAlumniTab(tab) {
+            // Update active tab button
+            document.querySelectorAll('#addAlumniModal .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show selected form
+            document.querySelectorAll('#addAlumniModal .alumni-form').forEach(form => {
+                form.style.display = 'none';
+            });
+            if (tab === 'single') {
+                document.getElementById('addAlumniForm').style.display = 'block';
+            } else {
+                document.getElementById('bulkAlumniForm').style.display = 'block';
+            }
+        }
+
+        function handleBulkAlumni(event) {
+            event.preventDefault();
+            
+            const defaultPassword = document.getElementById('defaultPassword').value;
+            const file = document.getElementById('csvFile').files[0];
+            
+            if (!file) {
+                alert('Please select a CSV file to upload');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lines = e.target.result.split('\n');
+                
+                // Create preview modal
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.display = 'block';
+                
+                // Get headers from first line
+                const headers = lines[0].split(',').map(header => header.trim());
+                
+                // Create preview content
+                let previewContent = `
+                    <div class="modal-content" style="max-width: 1000px; max-height: 80vh; overflow-y: auto;">
+                        <div class="modal-header">
+                            <h2>CSV Preview</h2>
+                            <button class="close-modal" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div style="margin-bottom: 20px;">
+                                <h3>File Details</h3>
+                                <p>Total Records: ${lines.length - 1}</p>
+                                <p>Default Password: ${defaultPassword}</p>
+                            </div>
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #f5f6fa;">
+                                            ${headers.map(header => `<th style="padding: 12px; text-align: left; border: 1px solid #ddd;">${header}</th>`).join('')}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+        `;
+
+                // Add data rows
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+
+                    const values = line.split(',').map(value => value.trim());
+                    previewContent += `
+                        <tr style="border-bottom: 1px solid #eee;">
+                            ${values.map(value => `<td style="padding: 12px; border: 1px solid #ddd;">${value}</td>`).join('')}
+                        </tr>
+                    `;
+                }
+
+                previewContent += `
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                                <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" 
+                                        style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    Cancel
+                                </button>
+                                <button onclick="processCSVUpload(this)" 
+                                        style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    Confirm Upload
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                modal.innerHTML = previewContent;
+                document.body.appendChild(modal);
+            };
+            reader.readAsText(file);
+        }
+
+        function processCSVUpload(button) {
+            const modal = button.closest('.modal');
+            const table = modal.querySelector('table');
+            const rows = table.querySelectorAll('tbody tr');
+            let successCount = 0;
+            let errorCount = 0;
+            let errors = [];
+
+            rows.forEach((row, index) => {
+                const cells = row.querySelectorAll('td');
+                const [name, email, year, branch, rollNumber, company = '', position = ''] = 
+                    Array.from(cells).map(cell => cell.textContent.trim());
+                
+                // Validate required fields
+                if (!name || !email || !year || !branch || !rollNumber) {
+                    errorCount++;
+                    errors.push(`Line ${index + 2}: Missing required fields`);
+                    return;
+                }
+
+                // Check if email already exists
+                if (localStorage.getItem(email)) {
+                    errorCount++;
+                    errors.push(`Line ${index + 2}: Email ${email} already exists`);
+                    return;
+                }
+
+                const alumniData = {
+                    id: Date.now().toString() + index,
+                    name: name,
+                    email: email,
+                    password: document.getElementById('defaultPassword').value,
+                    academicYear: year,
+                    branch: branch,
+                    rollNumber: rollNumber,
+                    currentCompany: company,
+                    position: position,
+                    approved: true,
+                    registrationDate: new Date().toISOString(),
+                    role: 'alumni'
+                };
+
+                // Store alumni data
+                localStorage.setItem(email, JSON.stringify(alumniData));
+
+                // Add to alumni data list
+                let alumniDataList = JSON.parse(localStorage.getItem('alumniData')) || [];
+                alumniDataList.push(alumniData);
+                localStorage.setItem('alumniData', JSON.stringify(alumniDataList));
+
+                successCount++;
+            });
+
+            // Add to recent activity
+            const activity = `Bulk alumni addition - ${successCount} added, ${errorCount} failed`;
+            addRecentActivity(activity);
+
+            // Update counts and close modals
+            updateTotalUsers();
+            updateTotalAlumni();
+            closeAddAlumniModal();
+            showAlumniDetails();
+
+            // Show results
+            if (errorCount > 0) {
+                alert(`Successfully added ${successCount} alumni.\nFailed to add ${errorCount} alumni:\n${errors.join('\n')}`);
+            } else {
+                alert(`Successfully added ${successCount} alumni!`);
+            }
+
+            // Remove the preview modal
+            modal.remove();
+        }
+
+        function downloadCSVTemplate() {
+            const csvContent = "Name,Email,Graduation Year,Branch,Roll Number,Company,Position\nJohn Doe,john@example.com,2023,CSE,12345,ABC Corp,Software Engineer";
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'alumni_template.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Add password change functionality to viewAlumniDetails
+        function viewAlumniDetails(alumniId) {
+            const alumniData = JSON.parse(localStorage.getItem('alumniData')) || [];
+            const alumni = alumniData.find(a => a.id === alumniId);
+            
+            if (alumni) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.display = 'block';
+                modal.innerHTML = `
+                    <div class="modal-content" style="max-width: 600px;">
+                        <div class="modal-header">
+                            <h2>Alumni Details</h2>
+                            <button class="close-modal" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                                <div style="width: 100px; height: 100px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <img src="${alumni.photo || 'default-avatar.png'}" alt="${alumni.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                </div>
+                                <div>
+                                    <h3 style="margin-bottom: 10px;">${alumni.name}</h3>
+                                    <p><strong>Email:</strong> ${alumni.email}</p>
+                                    <p><strong>Phone:</strong> ${alumni.phone || 'Not provided'}</p>
+                                    <p><strong>Graduation Year:</strong> ${alumni.academicYear}</p>
+                                </div>
+                            </div>
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 8px;">
+                                <h4 style="margin-bottom: 10px;">Professional Information</h4>
+                                <p><strong>Branch:</strong> ${alumni.branch}</p>
+                                <p><strong>Current Company:</strong> ${alumni.currentCompany || 'Not specified'}</p>
+                                <p><strong>Position:</strong> ${alumni.position || 'Not specified'}</p>
+                                ${alumni.bio ? `<p><strong>Bio:</strong> ${alumni.bio}</p>` : ''}
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <h4 style="margin-bottom: 10px;">Change Password</h4>
+                                <form onsubmit="changeAlumniPassword(event, '${alumni.email}')" style="display: flex; gap: 10px;">
+                                    <input type="password" id="newPassword" placeholder="New Password" required style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <button type="submit" style="background: #2196F3; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Update Password</button>
+                                </form>
+                            </div>
+                            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                                <button onclick="editAlumni('${alumni.id}')" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    Edit Details
+                                </button>
+                                <button onclick="deleteAlumni('${alumni.id}')" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    Delete Alumni
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        function changeAlumniPassword(event, email) {
+            event.preventDefault();
+            const newPassword = document.getElementById('newPassword').value;
+            
+            // Update password in main storage
+            const userData = JSON.parse(localStorage.getItem(email));
+            if (userData) {
+                userData.password = newPassword;
+                localStorage.setItem(email, JSON.stringify(userData));
+                
+                // Update password in alumni data list
+                let alumniData = JSON.parse(localStorage.getItem('alumniData')) || [];
+                const alumniIndex = alumniData.findIndex(a => a.email === email);
+                if (alumniIndex !== -1) {
+                    alumniData[alumniIndex].password = newPassword;
+                    localStorage.setItem('alumniData', JSON.stringify(alumniData));
+                }
+                
+                alert('Password updated successfully!');
+                event.target.reset();
+            }
+        }
+
+        function showAddUserModal(event) {
+            event.stopPropagation(); // Prevent the card click event
+            document.getElementById('addUserModal').style.display = 'block';
+        }
+
+        function closeAddUserModal() {
+            document.getElementById('addUserModal').style.display = 'none';
+            document.getElementById('addUserForm').reset();
+            document.getElementById('bulkUserForm').reset();
+        }
+
+        function switchUserTab(tab) {
+            // Update active tab button
+            document.querySelectorAll('#addUserModal .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show selected form
+            document.querySelectorAll('#addUserModal .user-form').forEach(form => {
+                form.style.display = 'none';
+            });
+            if (tab === 'single') {
+                document.getElementById('addUserForm').style.display = 'block';
+            } else {
+                document.getElementById('bulkUserForm').style.display = 'block';
+            }
+        }
+
+        function handleAddUser(event) {
+            event.preventDefault();
+            
+            const userData = {
+                id: Date.now().toString(),
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                password: document.getElementById('userPassword').value,
+                role: document.getElementById('userRole').value,
+                phone: document.getElementById('userPhone').value,
+                address: document.getElementById('userAddress').value,
+                approved: true, // Auto-approve since admin is adding
+                registrationDate: new Date().toISOString()
+            };
+
+            // Check if email already exists
+            if (localStorage.getItem(userData.email)) {
+                alert('An account with this email already exists!');
+                return;
+            }
+
+            // Store user data
+            localStorage.setItem(userData.email, JSON.stringify(userData));
+
+            // Add to recent activity
+            const activity = `New user added - ${userData.name}`;
+            addRecentActivity(activity);
+
+            // Update counts and close modal
+            updateTotalUsers();
+            closeAddUserModal();
+            showUserTypeModal(); // Refresh the user list
+            alert('User added successfully!');
+        }
+
+        function handleBulkUser(event) {
+            event.preventDefault();
+            
+            const defaultPassword = document.getElementById('defaultUserPassword').value;
+            const file = document.getElementById('userCsvFile').files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const lines = e.target.result.split('\n');
+                    let successCount = 0;
+                    let errorCount = 0;
+                    let errors = [];
+
+                    lines.forEach((line, index) => {
+                        if (index === 0) return; // Skip header row
+                        
+                        const [name, email, role, phone = '', address = ''] = line.split(',').map(item => item.trim());
+                        
+                        // Validate required fields
+                        if (!name || !email || !role) {
+                            errorCount++;
+                            errors.push(`Line ${index + 1}: Missing required fields`);
+                            return;
+                        }
+
+                        // Check if email already exists
+                        if (localStorage.getItem(email)) {
+                            errorCount++;
+                            errors.push(`Line ${index + 1}: Email ${email} already exists`);
+                            return;
+                        }
+
+                        const userData = {
+                            id: Date.now().toString() + index,
+                            name: name,
+                            email: email,
+                            password: defaultPassword,
+                            role: role,
+                            phone: phone,
+                            address: address,
+                            approved: true,
+                            registrationDate: new Date().toISOString()
+                        };
+
+                        // Store user data
+                        localStorage.setItem(email, JSON.stringify(userData));
+                        successCount++;
+                    });
+
+                    // Add to recent activity
+                    const activity = `Bulk user addition - ${successCount} added, ${errorCount} failed`;
+                    addRecentActivity(activity);
+
+                    // Update counts and close modal
+                    updateTotalUsers();
+                    closeAddUserModal();
+                    showUserTypeModal();
+
+                    // Show results
+                    if (errorCount > 0) {
+                        alert(`Successfully added ${successCount} users.\nFailed to add ${errorCount} users:\n${errors.join('\n')}`);
+                    } else {
+                        alert(`Successfully added ${successCount} users!`);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function downloadUserCSVTemplate() {
+            const csvContent = "Name,Email,Role,Phone,Address\nJohn Doe,john@example.com,user,1234567890,123 Main St";
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'user_template.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html> 

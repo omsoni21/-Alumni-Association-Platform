@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Signup - Alumni Association</title>
+    <style>
+        :root {
+            --primary-color: #1a237e;  /* Navy blue */
+            --secondary-color: #1976d2;  /* Blue */
+            --accent-color: #e74c3c;
+            --light-color: #f5f9ff;  /* Light blue-white */
+            --dark-color: #1a237e;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --gradient-start: #e3f2fd;
+            --gradient-end: #bbdefb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: var(--dark-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--primary-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .auth-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            width: 100%;
+            height: calc(100vh - 70px);
+        }
+
+        .auth-box {
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+        }
+
+        .auth-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .auth-image {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            position: relative;
+        }
+
+        .auth-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(44, 62, 80, 0.8));
+        }
+
+        .auth-image-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .auth-image-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-image-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 80%;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1.2rem;
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--secondary-color);
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--secondary-color);
+        }
+
+        .auth-form {
+            padding: 2.5rem;
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 2.5rem;
+            border: 2px solid rgba(26, 35, 126, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--dark-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--light-color);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button[type="submit"]:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .auth-box {
+                flex-direction: column;
+            }
+
+            .auth-image {
+                display: none;
+            }
+
+            .auth-content {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                padding: 1rem;
+            }
+
+            .auth-form {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://img.icons8.com/color/48/000000/graduation-cap.png" alt="Logo">
+            <h1>Alumni Association</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="home.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="home.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-content">
+            <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    <button class="tab-btn" data-tab="signup"><i class="fas fa-user-plus"></i> Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form active">
+                    <h2>Welcome Back!</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                            <i class="fas fa-envelope"></i>
+                        <input type="email" id="login-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                            <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" name="password" required>
+                    </div>
+                        <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+                        <p class="forgot-password" style="text-align: center; margin-top: 1rem;">
+                            <a href="#" id="forgotPasswordLink" style="color: var(--secondary-color); text-decoration: none;">Forgot Password?</a>
+                        </p>
+                </form>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgot-password-form" class="auth-form">
+                <h2>Reset Password</h2>
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label for="reset-email">Email</label>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="reset-email" name="email" required>
+                    </div>
+                    <button type="submit" id="sendCodeBtn"><i class="fas fa-paper-plane"></i> Send Verification Code</button>
+                </form>
+            </div>
+
+            <!-- Reset Password Form -->
+            <div id="reset-password-form" class="auth-form">
+                <h2>Enter Verification Code</h2>
+                <form id="resetPasswordForm">
+                    <div class="form-group">
+                        <label for="verification-code">Verification Code</label>
+                        <i class="fas fa-key"></i>
+                        <input type="text" id="verification-code" name="code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="new-password" name="new-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-password">Confirm New Password</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirm-new-password" name="confirm-new-password" required>
+                    </div>
+                    <button type="submit"><i class="fas fa-save"></i> Reset Password</button>
+                </form>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signup-form" class="auth-form">
+                    <h2>Create Account</h2>
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                            <i class="fas fa-user"></i>
+                        <input type="text" id="signup-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                            <i class="fas fa-envelope"></i>
+                        <input type="email" id="signup-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                            <i class="fas fa-lock"></i>
+                        <input type="password" id="signup-password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                            <i class="fas fa-lock"></i>
+                        <input type="password" id="signup-confirm-password" name="confirm-password" required>
+                    </div>
+                        <button type="submit"><i class="fas fa-user-plus"></i> Sign Up</button>
+                </form>
+                </div>
+            </div>
+            <div class="auth-image">
+                <div class="auth-image-content">
+                    <h2>Join Our Alumni Community</h2>
+                    <p>Connect with your fellow alumni, stay updated with events, and be part of our growing network of successful professionals.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tab-btn');
+        const forms = document.querySelectorAll('.auth-form');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and forms
+                tabs.forEach(t => t.classList.remove('active'));
+                forms.forEach(f => f.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding form
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.tab}-form`).classList.add('active');
+            });
+        });
+
+        // Handle signup
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Check if user already exists
+            if (localStorage.getItem(email)) {
+                alert('User already exists!');
+                return;
+            }
+
+            // Create user object with pending status
+            const userData = {
+                name: name,
+                email: email,
+                password: password,
+                approved: false,
+                registrationDate: new Date().toISOString()
+            };
+
+            // Store user data
+            localStorage.setItem(email, JSON.stringify(userData));
+
+            // Add to pending users list for admin approval
+            const pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')) || [];
+            pendingUsers.push(userData);
+            localStorage.setItem('pendingUsers', JSON.stringify(pendingUsers));
+
+            alert('Signup successful! Your account is pending admin approval. You will be notified once approved.');
+            document.querySelector('[data-tab="login"]').click();
+        });
+
+        // Handle login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Retrieve user data from localStorage
+            const storedUser = localStorage.getItem(email);
+            
+            if (storedUser) {
+                const userData = JSON.parse(storedUser);
+                
+                // Check if user is approved
+                if (!userData.approved) {
+                    alert('Your account is pending admin approval. Please wait for approval before logging in.');
+                    return;
+                }
+                
+                if (userData.password === password) {
+                    // Store login state
+                    localStorage.setItem('loggedInUser', JSON.stringify({
+                        name: userData.name,
+                        email: userData.email
+                    }));
+                    
+                    // Redirect to Alumni_home.html
+                    window.location.href = 'Alumni_home.html';
+                } else {
+                    alert('Invalid password!');
+                }
+            } else {
+                alert('User not found! Please sign up.');
+                document.querySelector('[data-tab="signup"]').click();
+            }
+        });
+
+        // Check if user is already logged in
+        if (localStorage.getItem('loggedInUser')) {
+            window.location.href = 'Alumni_home.html';
+        }
+
+        // Forgot Password Functionality
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+        const forgotPasswordForm = document.getElementById('forgot-password-form');
+        const resetPasswordForm = document.getElementById('reset-password-form');
+        let verificationCode = null;
+
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('login-form').classList.remove('active');
+            forgotPasswordForm.classList.add('active');
+        });
+
+        // Handle forgot password form submission
+        document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('reset-email').value;
+            
+            // Check if user exists
+            if (!localStorage.getItem(email)) {
+                alert('No account found with this email address!');
+                return;
+            }
+
+            // Generate a random 6-digit code
+            verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+            
+            // In a real application, you would send this code via email
+            // For demo purposes, we'll just show it in an alert
+            alert(`Your verification code is: ${verificationCode}\n\nIn a real application, this would be sent to your email.`);
+            
+            // Show the reset password form
+            forgotPasswordForm.classList.remove('active');
+            resetPasswordForm.classList.add('active');
+        });
+
+        // Handle reset password form submission
+        document.getElementById('resetPasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const code = document.getElementById('verification-code').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmNewPassword = document.getElementById('confirm-new-password').value;
+            const email = document.getElementById('reset-email').value;
+
+            // Verify the code
+            if (code !== verificationCode) {
+                alert('Invalid verification code!');
+                return;
+            }
+
+            // Check if passwords match
+            if (newPassword !== confirmNewPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Update the password in localStorage
+            const userData = JSON.parse(localStorage.getItem(email));
+            userData.password = newPassword;
+            localStorage.setItem(email, JSON.stringify(userData));
+
+            alert('Password has been reset successfully!');
+            
+            // Reset forms and show login
+            resetPasswordForm.classList.remove('active');
+            document.getElementById('login-form').classList.add('active');
+            document.getElementById('forgotPasswordForm').reset();
+            document.getElementById('resetPasswordForm').reset();
+        });
+    </script>
+</body>
+</html>

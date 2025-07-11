@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Make a Donation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #f5f6fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation Bar Styles */
+    nav {
+      background: linear-gradient(135deg, #f0f8ff 0%, #e6f0ff 100%);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo img {
+      height: 50px;
+      width: auto;
+    }
+
+    .logo-text {
+      color:  #1a237e;;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      color:  #1a237e;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav a:hover {
+      background-color: rgba(0, 121, 107, 0.1);
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      gap: 2rem;
+    }
+
+    .donation-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .donation-image {
+      width: 100%;
+      max-width: 600px;
+      height: 600px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .donation-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .donation-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .donation-header h1 {
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .donation-header p {
+      color: #666;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .form-group textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    .amount-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .amount-option {
+      padding: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .amount-option:hover {
+      border-color: #667eea;
+    }
+
+    .amount-option.selected {
+      background-color: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .custom-amount {
+      display: none;
+    }
+
+    .custom-amount.show {
+      display: block;
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .payment-method {
+      padding: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .payment-method:hover {
+      border-color: #667eea;
+    }
+
+    .payment-method.selected {
+      background-color: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .payment-method img {
+      height: 30px;
+      margin-bottom: 0.5rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .success-message i {
+      font-size: 4rem;
+      color: #4CAF50;
+      margin-bottom: 1rem;
+    }
+
+    /* Footer Styles */
+    footer {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 3rem 0 0;
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section {
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      color: #3498db;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-section p {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #ecf0f1;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-section ul li a {
+      color: #ecf0f1;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-section ul li a:hover {
+      color: #3498db;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-icon {
+      color: #ecf0f1;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      background: #3498db;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      background: #1a252f;
+      padding: 1.5rem 0;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .footer-bottom p {
+      color: #ecf0f1;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .processing-message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .processing-message i {
+      font-size: 3rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+    .processing-message p {
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+      
+      .donation-image {
+        max-width: 100%;
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <img src="logo.png" alt="Alumina Logo">
+      <span class="logo-text">Alumni Association</span>
+    </div>
+    <ul>
+      <li><a href="Alumni_home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+      <li><a href="Contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+      <li><a href="feedback.html"><i class="fas fa-comment-alt"></i> Feedback</a></li>
+      
+    </ul>
+  </nav>
+
+  <div class="main-content">
+    <div class="donation-image">
+      <img src="https://img.freepik.com/free-vector/online-donation-concept-illustration_114360-7684.jpg" alt="Online Donation Illustration">
+    </div>
+    <div class="donation-container">
+      <div class="donation-header">
+        <h1>Make a Donation</h1>
+        <p>Your contribution makes a difference</p>
+      </div>
+
+      <form id="donationForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Donation Amount</label>
+          <div class="amount-options">
+            <div class="amount-option" data-amount="500">₹500</div>
+            <div class="amount-option" data-amount="1000">₹1,000</div>
+            <div class="amount-option" data-amount="2500">₹2,500</div>
+            <div class="amount-option" data-amount="5000">₹5,000</div>
+            <div class="amount-option" data-amount="10000">₹10,000</div>
+            <div class="amount-option" data-amount="custom">Custom</div>
+          </div>
+          <div class="custom-amount">
+            <input type="number" id="customAmount" name="customAmount" min="1" placeholder="Enter amount in ₹">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="purpose">Purpose of Donation</label>
+          <select id="purpose" name="purpose">
+            <option value="General Donation">General Donation</option>
+            <option value="Scholarship Fund">Scholarship Fund</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Research">Research</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Payment Method</label>
+          <div class="payment-methods">
+            <div class="payment-method" data-method="card">
+              <img src="https://cdn-icons-png.flaticon.com/512/179/179457.png" alt="Credit Card">
+              <div>Credit Card</div>
+            </div>
+            <div class="payment-method" data-method="paypal">
+              <img src="https://cdn-icons-png.flaticon.com/512/174/174861.png" alt="PayPal">
+              <div>PayPal</div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Donate Now</button>
+      </form>
+
+      <div class="success-message">
+        <i class="fas fa-check-circle"></i>
+        <h2>Thank You!</h2>
+        <p>Your donation has been received successfully.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3><i class="fas fa-link"></i> Quick Links</h3>
+            <ul>
+                <li><a href="Alumni_home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="event.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li><a href="galery.html"><i class="fas fa-images"></i> Gallery</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+            <div class="social-links">
+                <a href="https://www.facebook.com/sagargroupofinstitutionssistec" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="https://x.com/sagarcollege" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.youtube.com/channel/UCytOCmxQb7IFU2BVFdI7T7w" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.linkedin.com/school/sagar-group-of-institutions-sistec/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/sagarcollegebhopal?igsh=MXJ3dHI3Mml1NWFsaA==" class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-section">
+            <h3><i class="fas fa-envelope"></i> Contact Us</h3>
+            <p><i class="fas fa-envelope"></i> Email: alumni@sistecgn.ac.in</p>
+            <p><i class="fas fa-phone"></i> Phone: +91 12345 67890</p>
+            <p><i class="fas fa-map-marker-alt"></i> Address: SISTec, Bhopal, Madhya Pradesh</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p><i class="fas fa-copyright"></i> 2025 Alumni Association. All rights reserved Om Soni, Sankit Kumar, Aadarsh Singh, Tanisha Dale, Atish Kumar, Aniket Kumar.</p>
+    </div>
+</footer>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <script>
+    // Amount selection
+    const amountOptions = document.querySelectorAll('.amount-option');
+    const customAmount = document.querySelector('.custom-amount');
+    const customAmountInput = document.getElementById('customAmount');
+    let selectedPaymentMethod = null;
+
+    // Payment method selection
+    const paymentMethods = document.querySelectorAll('.payment-method');
+    paymentMethods.forEach(method => {
+        method.addEventListener('click', () => {
+            paymentMethods.forEach(m => m.classList.remove('selected'));
+            method.classList.add('selected');
+            selectedPaymentMethod = method.dataset.method;
+        });
+    });
+
+    amountOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        amountOptions.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        
+        if (option.dataset.amount === 'custom') {
+          customAmount.classList.add('show');
+          customAmountInput.focus();
+        } else {
+          customAmount.classList.remove('show');
+          customAmountInput.value = '';
+        }
+      });
+    });
+
+    // Validate form before submission
+    function validateForm() {
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const selectedAmount = document.querySelector('.amount-option.selected');
+        const amount = selectedAmount ? 
+            (selectedAmount.dataset.amount === 'custom' ? customAmountInput.value : selectedAmount.dataset.amount) : null;
+        
+        // Basic validation
+        if (!name || !email || !amount || !selectedPaymentMethod) {
+            alert('Please fill in all required fields and select a payment method');
+            return false;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert('Please enter a valid email address');
+            return false;
+        }
+
+        // Amount validation
+        if (isNaN(amount) || parseFloat(amount) <= 0) {
+            alert('Please enter a valid donation amount');
+            return false;
+        }
+
+        return true;
+    }
+
+    // Handle form submission
+    document.getElementById('donationForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
+        // Get form data
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const amount = document.querySelector('.amount-option.selected').dataset.amount === 'custom' 
+            ? customAmountInput.value 
+            : document.querySelector('.amount-option.selected').dataset.amount;
+        const purpose = document.getElementById('purpose').value;
+
+        // Simulate payment processing
+        const processingMessage = document.createElement('div');
+        processingMessage.className = 'processing-message';
+        processingMessage.innerHTML = `
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Processing your payment...</p>
+        `;
+        document.querySelector('.donation-container').appendChild(processingMessage);
+
+        // Simulate payment processing delay
+        setTimeout(() => {
+            // Create a donation log object
+            const donationLog = {
+                donorName: name,
+                email: email,
+                amount: parseFloat(amount),
+                purpose: purpose,
+                paymentMethod: selectedPaymentMethod,
+                date: new Date().toISOString(),
+                status: 'completed'
+            };
+
+            // Save to localStorage
+            let donations = JSON.parse(localStorage.getItem('donations')) || [];
+            donations.push(donationLog);
+            localStorage.setItem('donations', JSON.stringify(donations));
+
+            // Remove processing message
+            processingMessage.remove();
+
+            // Show success message
+            document.querySelector('.success-message').classList.add('show');
+            document.getElementById('donationForm').reset();
+            
+            // Reset payment method selection
+            paymentMethods.forEach(m => m.classList.remove('selected'));
+            selectedPaymentMethod = null;
+
+            setTimeout(() => {
+                document.querySelector('.success-message').classList.remove('show');
+            }, 3000);
+        }, 2000);
+    });
+
+    // Add styles for processing message
+    const style = document.createElement('style');
+    style.textContent = `
+        .processing-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .processing-message i {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .processing-message p {
+            font-size: 1.2rem;
+            color: #333;
+        }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

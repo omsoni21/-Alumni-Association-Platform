@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumni Achievements</title>
+  <link rel="stylesheet" href="achiv.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="logo">
+      <h1>Alumni Association</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="Alumni_home.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="event.html">Events</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content Section -->
+  <main>
+    <section class="achievements">
+      <h2>Alumni Achievements</h2>
+      <p>We take pride in the accomplishments of our alumni, who continue to make significant contributions in various fields. Here are some of their remarkable achievements:</p>
+
+      <div class="carousel">
+        <div class="carousel-container">
+          <div class="carousel-item active">
+            <h3>John Doe</h3>
+            <p><strong>CEO at TechCorp</strong></p>
+            <p>John Doe, a graduate of 2005, is the current CEO of TechCorp, one of the leading technology companies in the world. Under his leadership, the company has seen exponential growth.</p>
+          </div>
+          <div class="carousel-item">
+            <h3>Jane Smith</h3>
+            <p><strong>Doctoral Researcher at BioHealth</strong></p>
+            <p>Jane Smith, a 2010 graduate, is currently working as a researcher at BioHealth, a renowned medical institute. Her work on cancer treatment has been groundbreaking.</p>
+          </div>
+          <div class="carousel-item">
+            <h3>Samuel Lee</h3>
+            <p><strong>Founder of GreenSolutions</strong></p>
+            <p>Samuel Lee, an alumni of 2008, founded GreenSolutions, a company that specializes in eco-friendly technology solutions, helping businesses reduce their carbon footprint.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+      <button class="next" onclick="moveSlide(1)">&#10095;</button>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2025 Alumni Association. All rights reserved.</p>
+  </footer>
+
+  <script src="achiv.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Alumni - Alumni Association</title>
+  <link rel="stylesheet" href="add-alumni.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="logo">
+      <h1>Alumni Association</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="Alumni_home.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+        <li><a href="alumni-spotlight.html">spotlight</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content Section -->
+  <main>
+    <section class="add-alumni-form">
+      <h2>Add Alumni Details</h2>
+      <form id="alumni-form">
+        <div class="form-group">
+          <label for="alumni-name">Name:</label>
+          <input type="text" id="alumni-name" name="alumni-name" required>
+        </div>
+        <div class="form-group">
+          <label for="graduation-year">Graduation Year:</label>
+          <input type="number" id="graduation-year" name="graduation-year" required>
+        </div>
+        <div class="form-group">
+          <label for="profession">Profession:</label>
+          <input type="text" id="profession" name="profession" required>
+        </div>
+        <div class="form-group">
+          <label for="company">Company/Organization:</label>
+          <input type="text" id="company" name="company" required>
+        </div>
+        <div class="form-group">
+          <label for="bio">Bio:</label>
+          <textarea id="bio" name="bio" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="image">Upload Image:</label>
+          <input type="file" id="image" name="image" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn-submit">Add Alumni</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2025 Alumni Association. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('alumni-form');
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        // Get form data
+        const name = document.getElementById('alumni-name').value;
+        const graduationYear = document.getElementById('graduation-year').value;
+        const profession = document.getElementById('profession').value;
+        const company = document.getElementById('company').value;
+        const bio = document.getElementById('bio').value;
+        const image = document.getElementById('image').files[0];
+
+        // Convert image to base64
+        const reader = new FileReader();
+        reader.onload = function () {
+          const alumni = {
+            name,
+            graduationYear,
+            profession,
+            company,
+            bio,
+            image: reader.result, // Base64 image
+          };
+
+          // Save to localStorage
+          let alumniList = JSON.parse(localStorage.getItem('alumniList')) || [];
+          alumniList.push(alumni);
+          localStorage.setItem('alumniList', JSON.stringify(alumniList));
+
+          // Clear the form
+          form.reset();
+
+          // Redirect to listadd.html
+          window.location.href = 'listadd.html';
+        };
+        reader.readAsDataURL(image);
+      });
+    });
+  </script>
+</body>
+</html>

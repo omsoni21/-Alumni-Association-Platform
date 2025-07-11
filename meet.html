@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Annual Alumni Meet - Aluminia Association</title>
+    <link rel="stylesheet" href="meet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <h1>Aluminia Association</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="Alumni_home.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="event.html">Events</a></li>
+                <li><a href="Contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Section -->
+  <section class="main-section">
+  <div class="container">
+    <h2>Annual Alumni Meet</h2>
+    <p>We invite all alumni to join us for the Annual Alumni Meet. Reconnect with old friends, share your experiences, and contribute to the growth of our association.</p>
+           
+    <h2>Upcoming Events with RSVP</h2>
+    <div id="eventList"></div> <!-- Container for dynamic event content -->
+
+    <div id="rsvpModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>RSVP to the Event</h2>
+        <form id="rsvpForm">
+          <input type="text" id="name" placeholder="Your Name" required>
+          <input type="email" id="email" placeholder="Your Email" required>
+          <button type="submit">Submit RSVP</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+   
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Aluminia Association. All Rights Reserved.</p>
+    </footer>
+
+    <script src="meet.js"></script>
+</body>
+
+</html>

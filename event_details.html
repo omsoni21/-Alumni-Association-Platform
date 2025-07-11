@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details - Alumni Association - Events</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="event_details.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Footer Styles */
+    footer {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 3rem 0 0;
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section {
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      color: #3498db;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .footer-section p {
+      margin-bottom: 1rem;
+      color: #ecf0f1;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-section ul li a {
+      color: #ecf0f1;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section ul li a:hover {
+      color: #3498db;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-links a {
+      color: #ecf0f1;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      text-decoration: none;
+    }
+
+    .social-links a:hover {
+      background: #3498db;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      background: #1a252f;
+      padding: 1.5rem 0;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .footer-bottom p {
+      color: #ecf0f1;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <h1>Alumni Association - Events</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="event.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="add_event.html"><i class="fas fa-plus-circle"></i> Add Event</a></li>
+        <li><a href="disp_event.html"><i class="fas fa-calendar-alt"></i> Display Events</a></li>
+      </ul>
+    </nav>
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <main>
+    <div class="container details">
+      <h2>Event Details</h2>
+      <div id="eventDetails"></div>
+      <div class="button-group">
+        <button onclick="editEvent(event)">Edit Event</button>
+        <button onclick="window.location.href = 'disp_event.html'">Back to Events</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3><i class="fas fa-link"></i> Quick Links</h3>
+        <ul>
+          <li><a href="Alumni_home.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="add_event.html"><i class="fas fa-plus-circle"></i> Add Event</a></li>
+          <li><a href="disp_event.html"><i class="fas fa-calendar-alt"></i> Display Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/sagargroupofinstitutionssistec" class="social-icon"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/sagarcollege" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.youtube.com/channel/UCytOCmxQb7IFU2BVFdI7T7w" class="social-icon"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.linkedin.com/school/sagar-group-of-institutions-sistec/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.instagram.com/sagarcollegebhopal?igsh=MXJ3dHI3Mml1NWFsaA==" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-envelope"></i> Contact Us</h3>
+        <p><i class="fas fa-envelope"></i> Email: alumni@sistecgn.ac.in</p>
+        <p><i class="fas fa-phone"></i> Phone: +91 12345 67890</p>
+        <p><i class="fas fa-map-marker-alt"></i> Address: Sagar Institute of Science & Technology, Gandhi Nagar, Bhopal</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><i class="fas fa-copyright"></i> 2025 Alumni Association. All rights reserved Om Soni, Sankit Kumar, Aadarsh Singh, Tanisha Dale, Atish Kumar, Aniket Kumar.</p>
+    </div>
+  </footer>
+
+  <script>
+    const selectedEvent = JSON.parse(localStorage.getItem('selectedEvent'));
+
+    function populateEventDetails(event) {
+      const eventDetailsContainer = document.getElementById('eventDetails');
+
+      const markup = `
+        <div class="event-info">
+          <p><strong>Event Name:</strong> ${event.event_name}</p>
+          <p><strong>Event Date:</strong> ${event.event_date}</p>
+          <p><strong>Event Time:</strong> ${convertTo12HourFormat(event.event_time)}</p>
+          <p><strong>Event Location:</strong> ${event.event_location}</p>
+          <p><strong>Event Description:</strong> ${event.event_description}</p>
+        </div>
+      `;
+
+      eventDetailsContainer.innerHTML = markup;
+    }
+
+    if (selectedEvent && Object.keys(selectedEvent).length !== 0) {
+      populateEventDetails(selectedEvent);
+    } else {
+      document.getElementById('eventDetails').innerText = 'No event details found.';
+    }
+
+    function convertTo12HourFormat(time) {
+      let [hours, minutes] = time.split(':');
+      const suffix = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      return `${hours}:${minutes} ${suffix}`;
+    }
+
+    function editEvent(event) {
+      localStorage.setItem('editEvent', JSON.stringify(selectedEvent));
+      window.location.href = 'add_event.html';
+      deleteEvent(event);
+    }
+
+    function deleteEvent(event) {
+      const events = JSON.parse(localStorage.getItem('events')) || [];
+      const index = events.findIndex((e) => e.event_name === selectedEvent.event_name);
+      events.splice(index, 1);
+      localStorage.setItem('events', JSON.stringify(events));
+    }
+
+    // Menu Toggle Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('nav ul');
+
+      menuToggle.addEventListener('click', function() {
+        nav.classList.toggle('active');
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', function(event) {
+        if (!event.target.closest('nav') && !event.target.closest('.menu-toggle')) {
+          nav.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

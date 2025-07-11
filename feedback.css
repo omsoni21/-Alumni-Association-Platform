@@ -1,0 +1,145 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #002147; /* Navy Blue */
+    padding: 20px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #FFD700; /* Gold/Yellow */
+}
+
+.feedback-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-container h1 {
+    text-align: center;
+    color: #002147; /* Navy Blue */
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #002147; /* Navy Blue */
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #FFD700; /* Gold/Yellow */
+    outline: none;
+}
+
+.form-group input[type="range"] {
+    width: 80%;
+    margin-right: 10px;
+}
+
+.form-group output {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: #002147; /* Navy Blue */
+}
+
+button {
+    background-color: #002147; /* Navy Blue */
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #FFD700; /* Gold/Yellow */
+    color: #002147; /* Navy Blue */
+}
+
+.feedback-list {
+    margin-top: 40px;
+}
+
+.feedback-list h2 {
+    color: #002147; /* Navy Blue */
+    margin-bottom: 20px;
+}
+
+.feedback-entry {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    position: relative;
+}
+
+.feedback-entry p {
+    margin: 5px 0;
+}
+
+.delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}

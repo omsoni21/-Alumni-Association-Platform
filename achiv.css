@@ -1,0 +1,157 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #002147; /* Navy Blue */
+  background-color: #f4f4f9;
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  background-color: #002147; /* Navy Blue */
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #FFD700; /* Gold/Yellow */
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #FFD700; /* Gold/Yellow */
+}
+
+/* Main Content */
+main {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.achievements h2 {
+  font-size: 2.5rem;
+  color: #002147; /* Navy Blue */
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.achievements p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  min-width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  text-align: center;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-item.active {
+  opacity: 1;
+}
+
+.carousel-item h3 {
+  font-size: 1.8rem;
+  color: #002147; /* Navy Blue */
+  margin-bottom: 10px;
+}
+
+.carousel-item p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.carousel-item strong {
+  color: #002147; /* Navy Blue */
+}
+
+/* Carousel Buttons */
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #FFD700; /* Gold/Yellow */
+  color: #002147; /* Navy Blue */
+  border: none;
+  padding: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.prev:hover, .next:hover {
+  background-color: #FFC107; /* Darker Gold/Yellow */
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+/* Footer */
+footer {
+  background-color: #002147; /* Navy Blue */
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}

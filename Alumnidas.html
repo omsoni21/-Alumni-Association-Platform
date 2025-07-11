@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Alumni Dashboard for Sistec GN - Connect with fellow alumni and access resources">
+    <meta name="theme-color" content="#1976d2">
+    <title>Alumni Dashboard - Sistec GN</title>
+    <!-- Preload critical assets -->
+    <link rel="preload" href="alumni-dashboard.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
+    <!-- Load styles -->
+    <link rel="stylesheet" href="alumni-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <!-- Add service worker for caching -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('ServiceWorker registration successful'))
+                    .catch(err => console.log('ServiceWorker registration failed: ', err));
+            });
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="logo.png" alt="Sistec GN Alumni Logo" loading="lazy" width="40" height="40">
+                <h1>Alumni Association</h1>
+            </div>
+            <div class="nav-links">
+                <a href="Alumni_home.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+                <a href="#" class="nav-link" onclick="navigateTo('profile')">
+                    <i class="fas fa-user-graduate"></i>
+                    Profile
+                </a>
+                <a href="eventview.html" class="nav-link">
+                    <i class="fas fa-calendar-alt"></i>
+                    Events
+                </a>
+                <a href="#" class="nav-link" onclick="navigateTo('career')">
+                    <i class="fas fa-briefcase"></i>
+                    Career
+                </a>
+            </div>
+            <div class="user-info">
+                <div class="user-profile">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="welcome-text">Welcome, <span id="alumniName">Alumni</span></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Alumni Dashboard</h1>
+            <p>Welcome to your personalized alumni portal</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card" onclick="navigateTo('profile')">
+                <div class="card-header">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>Profile</h3>
+                </div>
+                <div class="card-content">
+                    View and update your personal information, education details, and professional achievements.
+                </div>
+            </div>
+
+            <div class="dashboard-card" onclick="navigateTo('events')">
+                <div class="card-header">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Events</h3>
+                </div>
+                <div class="card-content">
+                    Stay updated with upcoming alumni events, reunions, and networking opportunities.
+                </div>
+            </div>
+
+            <div class="dashboard-card" onclick="navigateTo('career')">
+                <div class="card-header">
+                    <i class="fas fa-briefcase"></i>
+                    <h3>Career</h3>
+                </div>
+                <div class="card-content">
+                    Access job opportunities, career resources, and connect with fellow alumni in your industry.
+                </div>
+            </div>
+
+            <div class="dashboard-card" onclick="navigateTo('applications')">
+                <div class="card-header">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>View Applications</h3>
+                </div>
+                <div class="card-content">
+                    Track your job applications, view application status, and manage your job search progress.
+                </div>
+            </div>
+
+            <div class="dashboard-card" onclick="navigateTo('upload-job')">
+                <div class="card-header">
+                    <i class="fas fa-upload"></i>
+                    <h3>Upload Job</h3>
+                </div>
+                <div class="card-content">
+                    Share job opportunities with fellow alumni by uploading job postings from your organization.
+                </div>
+            </div>
+
+            <div class="dashboard-card" onclick="navigateTo('social-feed')">
+                <div class="card-header">
+                    <i class="fas fa-newspaper"></i>
+                    <h3>Social Feed</h3>
+                </div>
+                <div class="card-content">
+                    Share your updates, photos, and videos with the alumni community and stay connected.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading spinner -->
+    <div class="loading-spinner" id="loadingSpinner"></div>
+
+    <script>
+        // Cache DOM elements
+        const elements = {
+            alumniName: document.getElementById('alumniName'),
+            loadingSpinner: document.getElementById('loadingSpinner'),
+            dashboardGrid: document.querySelector('.dashboard-grid'),
+            mobileMenuBtn: document.querySelector('.mobile-menu-btn'),
+            navContainer: document.querySelector('.nav-container')
+        };
+
+        // Function to show loading state
+        function showLoading() {
+            elements.loadingSpinner.style.display = 'block';
+            elements.dashboardGrid.classList.add('loading');
+        }
+
+        // Function to hide loading state
+        function hideLoading() {
+            elements.loadingSpinner.style.display = 'none';
+            elements.dashboardGrid.classList.remove('loading');
+        }
+
+        // Function to get alumni name from localStorage with error handling
+        function getAlumniName() {
+            try {
+                const alumniName = localStorage.getItem('alumniName');
+                if (alumniName) {
+                    elements.alumniName.textContent = alumniName;
+                }
+            } catch (error) {
+                console.error('Error accessing localStorage:', error);
+            }
+        }
+
+        // Function to handle navigation
+        function navigateTo(section) {
+            showLoading();
+            // Simulate API call or data loading
+            setTimeout(() => {
+                switch(section) {
+                    case 'upload-job':
+                        window.location.href = 'upload-job.html';
+                        break;
+                    case 'applications':
+                        window.location.href = 'applications.html';
+                        break;
+                    case 'profile':
+                        window.location.href = 'profile.html';
+                        break;
+                    case 'career':
+                        window.location.href = 'career.html';
+                        break;
+                    default:
+                        window.location.href = `${section}.html`;
+                }
+                hideLoading();
+            }, 300);
+        }
+
+        // Function to handle logout
+        function logout() {
+            showLoading();
+            try {
+                // Clear any stored data
+                localStorage.removeItem('alumniName');
+                localStorage.removeItem('currentUser');
+                // Redirect to login page
+                window.location.href = 'alumni_login.html';
+            } catch (error) {
+                console.error('Error during logout:', error);
+                hideLoading();
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            getAlumniName();
+            
+            // Add event listeners for better performance
+            document.querySelectorAll('.dashboard-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const section = e.currentTarget.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    navigateTo(section);
+                });
+            });
+
+            // Mobile menu functionality
+            elements.mobileMenuBtn.addEventListener('click', () => {
+                elements.navContainer.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!elements.navContainer.contains(e.target)) {
+                    elements.navContainer.classList.remove('active');
+                }
+            });
+        });
+
+        // Handle offline state
+        window.addEventListener('offline', () => {
+            alert('You are currently offline. Some features may not be available.');
+        });
+
+        // Check if user is logged in and approved
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                // Only redirect if not on home page
+                if (!window.location.href.includes('Alumni_home.html')) {
+                    alert('Please login first');
+                    window.location.href = 'alumni_login.html';
+                    return;
+                }
+            } else {
+                // Display user information
+                document.getElementById('alumniName').textContent = currentUser.name;
+                
+                // Add user-specific information to dashboard
+                const dashboardInfo = document.createElement('div');
+                dashboardInfo.className = 'dashboard-info';
+             
+                document.querySelector('.dashboard-container').appendChild(dashboardInfo);
+            }
+        });
+    </script>
+</body>
+</html> 

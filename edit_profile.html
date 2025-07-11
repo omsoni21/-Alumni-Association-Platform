@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="member.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <title>Edit Profile - Alumni Association</title>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+      --success-color: #2ecc71;
+      --error-color: #e74c3c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: var(--dark-color);
+      line-height: 1.6;
+    }
+
+    .edit-profile-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .edit-profile-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .edit-profile-header h1 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .form-section h3 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .profile-picture-upload {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .profile-picture-upload img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 5px solid var(--secondary-color);
+    }
+
+    .upload-btn {
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .upload-btn:hover {
+      background: #2980b9;
+    }
+
+    .save-btn {
+      background: var(--success-color);
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .save-btn:hover {
+      background: #27ae60;
+    }
+
+    .back-btn {
+      background: var(--light-color);
+      color: var(--primary-color);
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #bdc3c7;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-tag {
+      background: var(--light-color);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .skill-tag button {
+      background: none;
+      border: none;
+      color: var(--error-color);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .add-skill {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .add-skill input {
+      flex: 1;
+    }
+
+    .social-links {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="edit-profile-container">
+    <button class="back-btn" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i> Back to Profile
+    </button>
+    
+    <div class="edit-profile-header">
+      <h1>Edit Profile</h1>
+    </div>
+
+    <div class="profile-picture-upload">
+      <img id="profile-picture-preview" src="default-avatar.png" alt="Profile Picture">
+      <input type="file" id="profile-picture-input" accept="image/*" class="hidden">
+      <button class="upload-btn" onclick="document.getElementById('profile-picture-input').click()">
+        <i class="fas fa-camera"></i> Change Profile Picture
+      </button>
+    </div>
+
+    <form id="edit-profile-form">
+      <!-- Basic Information Section -->
+      <div class="form-section">
+        <h3>Basic Information</h3>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title">
+        </div>
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea id="bio" name="bio"></textarea>
+        </div>
+      </div>
+
+      <!-- Contact Information Section -->
+      <div class="form-section">
+        <h3>Contact Information</h3>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone">
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location">
+        </div>
+      </div>
+
+      <!-- Education Section -->
+      <div class="form-section">
+        <h3>Education</h3>
+        <div id="education-container">
+          <div class="education-entry">
+            <div class="form-group">
+              <label for="degree">Degree</label>
+              <input type="text" id="degree" name="degree">
+            </div>
+            <div class="form-group">
+              <label for="institution">Institution</label>
+              <input type="text" id="institution" name="institution">
+            </div>
+            <div class="form-group">
+              <label for="edu-start-date">Start Date</label>
+              <input type="date" id="edu-start-date" name="edu-start-date">
+            </div>
+            <div class="form-group">
+              <label for="edu-end-date">End Date</label>
+              <input type="date" id="edu-end-date" name="edu-end-date">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experience Section -->
+      <div class="form-section">
+        <h3>Experience</h3>
+        <div id="experience-container">
+          <div class="experience-entry">
+            <div class="form-group">
+              <label for="position">Position</label>
+              <input type="text" id="position" name="position">
+            </div>
+            <div class="form-group">
+              <label for="company">Company</label>
+              <input type="text" id="company" name="company">
+            </div>
+            <div class="form-group">
+              <label for="exp-start-date">Start Date</label>
+              <input type="date" id="exp-start-date" name="exp-start-date">
+            </div>
+            <div class="form-group">
+              <label for="exp-end-date">End Date</label>
+              <input type="date" id="exp-end-date" name="exp-end-date">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="form-section">
+        <h3>Skills</h3>
+        <div class="skill-tags" id="skills-container">
+          <!-- Skills will be added here dynamically -->
+        </div>
+        <div class="add-skill">
+          <input type="text" id="new-skill" placeholder="Add a new skill">
+          <button type="button" class="upload-btn" onclick="addSkill()">Add</button>
+        </div>
+      </div>
+
+      <!-- Social Links Section -->
+      <div class="form-section">
+        <h3>Social Links</h3>
+        <div class="social-links">
+          <div class="form-group">
+            <label for="facebook">Facebook</label>
+            <input type="url" id="facebook" name="facebook">
+          </div>
+          <div class="form-group">
+            <label for="twitter">Twitter</label>
+            <input type="url" id="twitter" name="twitter">
+          </div>
+          <div class="form-group">
+            <label for="linkedin">LinkedIn</label>
+            <input type="url" id="linkedin" name="linkedin">
+          </div>
+          <div class="form-group">
+            <label for="github">GitHub</label>
+            <input type="url" id="github" name="github">
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="save-btn">Save Changes</button>
+    </form>
+  </div>
+
+  <script>
+    // Load current user data
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) {
+        window.location.href = 'alumni_login.html';
+        return;
+      }
+
+      // Populate basic information
+      document.getElementById('name').value = currentUser.name || '';
+      document.getElementById('title').value = currentUser.title || '';
+      document.getElementById('bio').value = currentUser.bio || '';
+      
+      // Populate contact information
+      document.getElementById('email').value = currentUser.contact?.email || '';
+      document.getElementById('phone').value = currentUser.contact?.phone || '';
+      document.getElementById('location').value = currentUser.contact?.location || '';
+      
+      // Populate education
+      if (currentUser.education && currentUser.education.length > 0) {
+        const edu = currentUser.education[0];
+        document.getElementById('degree').value = edu.degree || '';
+        document.getElementById('institution').value = edu.institution || '';
+        document.getElementById('edu-start-date').value = edu.startDate || '';
+        document.getElementById('edu-end-date').value = edu.endDate || '';
+      }
+      
+      // Populate experience
+      if (currentUser.experience && currentUser.experience.length > 0) {
+        const exp = currentUser.experience[0];
+        document.getElementById('position').value = exp.position || '';
+        document.getElementById('company').value = exp.company || '';
+        document.getElementById('exp-start-date').value = exp.startDate || '';
+        document.getElementById('exp-end-date').value = exp.endDate || '';
+      }
+      
+      // Populate skills
+      if (currentUser.skills && currentUser.skills.length > 0) {
+        const skillsContainer = document.getElementById('skills-container');
+        currentUser.skills.forEach(skill => {
+          const skillTag = document.createElement('div');
+          skillTag.className = 'skill-tag';
+          skillTag.innerHTML = `
+            ${skill}
+            <button type="button" onclick="removeSkill(this)">×</button>
+          `;
+          skillsContainer.appendChild(skillTag);
+        });
+      }
+      
+      // Populate social links
+      document.getElementById('facebook').value = currentUser.social?.facebook || '';
+      document.getElementById('twitter').value = currentUser.social?.twitter || '';
+      document.getElementById('linkedin').value = currentUser.social?.linkedin || '';
+      document.getElementById('github').value = currentUser.social?.github || '';
+      
+      // Set profile picture
+      document.getElementById('profile-picture-preview').src = currentUser.profilePicture || 'default-avatar.png';
+    });
+
+    // Handle profile picture upload
+    document.getElementById('profile-picture-input').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('profile-picture-preview').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Add new skill
+    function addSkill() {
+      const newSkillInput = document.getElementById('new-skill');
+      const skill = newSkillInput.value.trim();
+      
+      if (skill) {
+        const skillsContainer = document.getElementById('skills-container');
+        const skillTag = document.createElement('div');
+        skillTag.className = 'skill-tag';
+        skillTag.innerHTML = `
+          ${skill}
+          <button type="button" onclick="removeSkill(this)">×</button>
+        `;
+        skillsContainer.appendChild(skillTag);
+        newSkillInput.value = '';
+      }
+    }
+
+    // Remove skill
+    function removeSkill(button) {
+      button.parentElement.remove();
+    }
+
+    // Handle form submission
+    document.getElementById('edit-profile-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      
+      // Update basic information
+      currentUser.name = document.getElementById('name').value;
+      currentUser.title = document.getElementById('title').value;
+      currentUser.bio = document.getElementById('bio').value;
+      
+      // Update contact information
+      currentUser.contact = {
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        location: document.getElementById('location').value
+      };
+      
+      // Update education
+      currentUser.education = [{
+        degree: document.getElementById('degree').value,
+        institution: document.getElementById('institution').value,
+        startDate: document.getElementById('edu-start-date').value,
+        endDate: document.getElementById('edu-end-date').value
+      }];
+      
+      // Update experience
+      currentUser.experience = [{
+        position: document.getElementById('position').value,
+        company: document.getElementById('company').value,
+        startDate: document.getElementById('exp-start-date').value,
+        endDate: document.getElementById('exp-end-date').value
+      }];
+      
+      // Update skills
+      const skills = [];
+      document.querySelectorAll('.skill-tag').forEach(tag => {
+        skills.push(tag.textContent.trim().replace('×', ''));
+      });
+      currentUser.skills = skills;
+      
+      // Update social links
+      currentUser.social = {
+        facebook: document.getElementById('facebook').value,
+        twitter: document.getElementById('twitter').value,
+        linkedin: document.getElementById('linkedin').value,
+        github: document.getElementById('github').value
+      };
+      
+      // Update profile picture if changed
+      const profilePictureInput = document.getElementById('profile-picture-input');
+      if (profilePictureInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          currentUser.profilePicture = e.target.result;
+          saveAndRedirect(currentUser);
+        }
+        reader.readAsDataURL(profilePictureInput.files[0]);
+      } else {
+        saveAndRedirect(currentUser);
+      }
+    });
+
+    function saveAndRedirect(userData) {
+      // Save updated user data
+      localStorage.setItem('currentUser', JSON.stringify(userData));
+      
+      // Redirect back to profile page
+      window.location.href = 'profileu.html';
+    }
+
+    function goBack() {
+      window.location.href = 'profileu.html';
+    }
+  </script>
+</body>
+</html> 

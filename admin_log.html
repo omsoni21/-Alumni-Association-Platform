@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background: #dc3545;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 70px);
+        }
+
+        .image-section {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            position: relative;
+        }
+
+        .image-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .image-content {
+            position: relative;
+            color: white;
+            padding: 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .image-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .image-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .form-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #c82333;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #dc3545;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .image-section {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="home.html" class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            Alumni Portal
+        </a>
+        <div class="nav-links">
+            <a href="home.html"><i class="fas fa-home"></i> Home</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="image-section">
+            <div class="image-content">
+                <h1>Welcome Back, Admin</h1>
+                <p>Manage your alumni portal with ease. Access all administrative features and maintain the alumni database efficiently.</p>
+            </div>
+        </div>
+        <div class="form-section">
+            <div class="form-container">
+                <h2>Admin Login</h2>
+                <form id="login">
+                    <div class="form-group">
+                        <label for="loginUsername">Admin Username</label>
+                        <input type="text" id="loginUsername" placeholder="Enter admin username (e.g., rahul_sharma)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter password (e.g., admin123)" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <div class="back-link">
+                    <a href="home.html">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Predefined admin credentials (Indian names)
+            const adminCredentials = [
+                { username: 'admin', password: 'admin123', name: 'Rahul Sharma' },
+                { username: 'priya_patel', password: 'admin456', name: 'Priya Patel' },
+                { username: 'amit_kumar', password: 'admin789', name: 'Amit Kumar' },
+                { username: 'neha_gupta', password: 'admin101', name: 'Neha Gupta' },
+                { username: 'vikram_singh', password: 'admin202', name: 'Vikram Singh' },
+                { username: 'ananya_reddy', password: 'admin303', name: 'Ananya Reddy' },
+                { username: 'arjun_mishra', password: 'admin404', name: 'Arjun Mishra' }
+            ];
+            
+            // Check if credentials match
+            const validAdmin = adminCredentials.find(admin => 
+                admin.username === username && admin.password === password
+            );
+            
+            if (validAdmin) {
+                // Store admin name in sessionStorage
+                sessionStorage.setItem('adminName', validAdmin.name);
+                // Redirect to admin dashboard
+                window.location.href = 'admindash.html';
+            } else {
+                alert('Invalid admin credentials. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

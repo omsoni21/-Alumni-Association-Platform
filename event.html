@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <title>Home - Alumni Association - Event</title>
+  <style>
+    /* Footer Styles */
+    footer {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 3rem 0 0;
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section {
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      color: #3498db;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-section p {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #ecf0f1;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-section ul li a {
+      color: #ecf0f1;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-section ul li a:hover {
+      color: #3498db;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-icon {
+      color: #ecf0f1;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      background: #3498db;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      background: #1a252f;
+      padding: 1.5rem 0;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .footer-bottom p {
+      color: #ecf0f1;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="logo.png" alt="Sistec GN Alumni Logo">
+        <h1>Alumni Association</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="Alumni_home.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="add_event.html"><i class="fas fa-plus-circle"></i> Add Event</a></li>
+        <li><a href="disp_event.html"><i class="fas fa-calendar-alt"></i> Display Events</a></li>
+      </ul>
+      <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Welcome to Alumni Association Events</h1>
+      <h3>Manage and track your events with ease.</h3>
+      <br>
+      <a href="add_event.html" class="btn">Add Your Event</a>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2>Features</h2>
+    <div class="feature-container">
+      <div class="feature-item">
+        <i class="fas fa-calendar-plus"></i>
+        <h3>Easy Event Management</h3>
+        <p>Add, edit, and delete events in a user-friendly interface.</p>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-clock"></i>
+        <h3>Countdowns</h3>
+        <p>Keep track of time with accurate countdowns for each event.</p>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-list-ol"></i>
+        <h3>Chronological Order</h3>
+        <p>View your events in a clear, chronological list.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3><i class="fas fa-link"></i> Quick Links</h3>
+        <ul>
+          <li><a href="Alumni_home.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="add_event.html"><i class="fas fa-plus-circle"></i> Add Event</a></li>
+          <li><a href="disp_event.html"><i class="fas fa-calendar-alt"></i> Display Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+        <div class="social-links">
+          <a href="https://www.facebook.com/sagargroupofinstitutionssistec" class="social-icon"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/sagarcollege" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.youtube.com/channel/UCytOCmxQb7IFU2BVFdI7T7w" class="social-icon"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.linkedin.com/school/sagar-group-of-institutions-sistec/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.instagram.com/sagarcollegebhopal?igsh=MXJ3dHI3Mml1NWFsaA==" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-envelope"></i> Contact Us</h3>
+        <p><i class="fas fa-envelope"></i> Email: alumni@sistecgn.ac.in</p>
+        <p><i class="fas fa-phone"></i> Phone: +91 12345 67890</p>
+        <p><i class="fas fa-map-marker-alt"></i> Address: Sagar Institute of Science & Technology, Gandhi Nagar, Bhopal</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><i class="fas fa-copyright"></i> 2025 Alumni Association. All rights reserved Om Soni, Sankit Kumar, Aadarsh Singh, Tanisha Dale, Atish Kumar, Aniket Kumar.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navLinks = document.querySelector('nav ul');
+
+      menuToggle.addEventListener('click', function () {
+        navLinks.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+
+</html>

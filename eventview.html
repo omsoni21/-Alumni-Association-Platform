@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View Alumni Events - Sistec GN">
+    <meta name="theme-color" content="#1976d2">
+    <title>Events - Sistec GN Alumni</title>
+    <!-- Preload critical assets -->
+    <link rel="preload" href="alumni-dashboard.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
+    <!-- Load styles -->
+    <link rel="stylesheet" href="alumni-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        .events-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .events-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .events-header h1 {
+            color: #1976d2;
+            margin-bottom: 0.5rem;
+        }
+
+        .events-header p {
+            color: #666;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .event-content {
+            padding: 1.5rem;
+        }
+
+        .event-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #1976d2;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .event-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .event-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .event-detail i {
+            color: #1976d2;
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1565c0;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #1976d2;
+            color: #1976d2;
+        }
+
+        .btn-outline:hover {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background-color: #1976d2;
+            color: white;
+            border-color: #1976d2;
+        }
+
+        .filter-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .filter-btn.active:hover {
+            background-color: #1565c0;
+        }
+
+        @media (max-width: 768px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-section {
+                justify-content: center;
+            }
+
+            .event-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="logo.png" alt="Sistec GN Alumni Logo" loading="lazy" width="40" height="40">
+                <h1>Alumni Association</h1>
+            </div>
+            <div class="nav-links">
+                <a href="Alumni_home.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+                <a href="#" class="nav-link" onclick="navigateTo('profile')">
+                    <i class="fas fa-user-graduate"></i>
+                    Profile
+                </a>
+                <a href="eventview.html" class="nav-link active">
+                    <i class="fas fa-calendar-alt"></i>
+                    Events
+                </a>
+                <a href="#" class="nav-link" onclick="navigateTo('career')">
+                    <i class="fas fa-briefcase"></i>
+                    Career
+                </a>
+            </div>
+            <div class="user-info">
+                <div class="user-profile">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="welcome-text">Welcome, <span id="alumniName">Alumni</span></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="events-container">
+        <div class="events-header">
+            <h1>Upcoming Events</h1>
+            <p>Stay connected with your alma mater through these exciting events</p>
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-btn active">All Events</button>
+            <button class="filter-btn">Workshops</button>
+            <button class="filter-btn">Networking</button>
+            <button class="filter-btn">Reunions</button>
+            <button class="filter-btn">Career Fairs</button>
+        </div>
+
+        <div class="events-grid">
+            <!-- Event Card 1 -->
+            <div class="event-card">
+                <img src="event1.jpg" alt="Annual Alumni Meet" class="event-image">
+                <div class="event-content">
+                    <div class="event-date">
+                        <i class="fas fa-calendar"></i>
+                        May 15, 2024
+                    </div>
+                    <h3 class="event-title">Annual Alumni Meet 2024</h3>
+                    <p class="event-description">
+                        Join us for the biggest gathering of Sistec GN alumni. Network with your batchmates and faculty members.
+                    </p>
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <i class="fas fa-clock"></i>
+                            10:00 AM - 4:00 PM
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Sistec GN Campus
+                        </div>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                            Register
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-info-circle"></i>
+                            Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Card 2 -->
+            <div class="event-card">
+                <img src="event2.jpg" alt="Career Workshop" class="event-image">
+                <div class="event-content">
+                    <div class="event-date">
+                        <i class="fas fa-calendar"></i>
+                        June 5, 2024
+                    </div>
+                    <h3 class="event-title">Career Development Workshop</h3>
+                    <p class="event-description">
+                        Learn from industry experts about career growth, resume building, and interview preparation.
+                    </p>
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <i class="fas fa-clock"></i>
+                            2:00 PM - 5:00 PM
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Virtual Event
+                        </div>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                            Register
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-info-circle"></i>
+                            Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Card 3 -->
+            <div class="event-card">
+                <img src="event3.jpg" alt="Networking Event" class="event-image">
+                <div class="event-content">
+                    <div class="event-date">
+                        <i class="fas fa-calendar"></i>
+                        July 20, 2024
+                    </div>
+                    <h3 class="event-title">Industry Networking Night</h3>
+                    <p class="event-description">
+                        Connect with industry professionals and explore potential career opportunities.
+                    </p>
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <i class="fas fa-clock"></i>
+                            6:00 PM - 9:00 PM
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Grand Hotel, Bhopal
+                        </div>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                            Register
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-info-circle"></i>
+                            Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cache DOM elements
+        const elements = {
+            alumniName: document.getElementById('alumniName'),
+            mobileMenuBtn: document.querySelector('.mobile-menu-btn'),
+            navContainer: document.querySelector('.nav-container')
+        };
+
+        // Function to handle navigation
+        function navigateTo(section) {
+            window.location.href = `${section}.html`;
+        }
+
+        // Function to handle logout
+        function logout() {
+            try {
+                localStorage.removeItem('alumniName');
+                localStorage.removeItem('currentUser');
+                window.location.href = 'alumni_login.html';
+            } catch (error) {
+                console.error('Error during logout:', error);
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get alumni name from localStorage
+            const alumniName = localStorage.getItem('alumniName');
+            if (alumniName) {
+                elements.alumniName.textContent = alumniName;
+            }
+
+            // Mobile menu functionality
+            elements.mobileMenuBtn.addEventListener('click', () => {
+                elements.navContainer.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!elements.navContainer.contains(e.target)) {
+                    elements.navContainer.classList.remove('active');
+                }
+            });
+
+            // Filter buttons functionality
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    // Add filter logic here
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

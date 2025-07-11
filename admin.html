@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="Alumni_home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        
+        <li><button id="logout-btn">Logout</button></li> <!-- Logout Button -->
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Admin Container -->
+  <div class="admin-container">
+    <h2>Dashboard</h2>
+    <div id="donation-logs">
+      <h3>Donation Logs</h3>
+      <ul id="logs-list">
+        <!-- Donation logs will be dynamically inserted here -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Check if the user is logged in
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+    if (!isLoggedIn) {
+      // Redirect to the login page if not logged in
+      alert('You must log in to access the admin dashboard.');
+      window.location.href = 'admin_logi.html';
+    }
+
+    // Simulate fetching donation logs from localStorage
+    const donationLogs = JSON.parse(localStorage.getItem('donationLogs')) || [
+      { name: "John Doe", amount: 100, paymentMethod: "Credit Card" },
+      { name: "Jane Smith", amount: 50, paymentMethod: "PayPal" },
+      { name: "Alice Johnson", amount: 200, paymentMethod: "Bank Transfer" }
+    ];
+
+    const logsList = document.getElementById('logs-list');
+
+    // Function to display logs with transitions
+    function displayLogs() {
+      donationLogs.forEach((log, index) => {
+        const li = document.createElement('li');
+        li.textContent = `Donor: ${log.name}, Amount: $${log.amount}, Method: ${log.paymentMethod}`;
+        logsList.appendChild(li);
+
+        // Add transition effect to each log
+        setTimeout(() => {
+          li.style.opacity = '1';
+          li.style.transform = 'translateY(0)';
+        }, index * 200); // Delay each log's appearance
+      });
+    }
+
+    // Display logs on page load
+    displayLogs();
+
+    // Simulate adding a new log dynamically after 3 seconds
+    setTimeout(() => {
+      const newLog = { name: "Michael Brown", amount: 75, paymentMethod: "PayPal" };
+      donationLogs.push(newLog);
+      localStorage.setItem('donationLogs', JSON.stringify(donationLogs));
+
+      const li = document.createElement('li');
+      li.textContent = `Donor: ${newLog.name}, Amount: $${newLog.amount}, Method: ${newLog.paymentMethod}`;
+      logsList.appendChild(li);
+
+      // Add transition effect to the new log
+      setTimeout(() => {
+        li.style.opacity = '1';
+        li.style.transform = 'translateY(0)';
+      }, 200);
+    }, 3000);
+
+    // Logout functionality
+    document.getElementById('logout-btn').addEventListener('click', function () {
+      localStorage.removeItem('isLoggedIn'); // Clear the login flag
+      window.location.href = 'admin_logi.html'; // Redirect to login page
+    });
+  </script>
+</body>
+</html>

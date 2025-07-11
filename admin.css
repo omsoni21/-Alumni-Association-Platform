@@ -1,0 +1,233 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Gradient background */
+  color: #fff; /* Changed to white for better contrast */
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Blur effect */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+nav ul li {
+  margin: 0;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #ffd700; /* Gold color for hover effect */
+  transform: translateY(-3px);
+}
+
+/* Logout Button */
+#logout-btn {
+  background-color: #ff4d4d; /* Red color for logout button */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#logout-btn:hover {
+  background-color: #cc0000; /* Darker red on hover */
+  transform: scale(1.05);
+}
+
+/* Admin Container */
+.admin-container, .login-container, .signup-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Blur effect */
+}
+
+h2 {
+  color: #ffd700; /* Gold color */
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #ffd700; /* Gold color */
+}
+
+input[type="text"], input[type="password"], input[type="number"], select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Semi-transparent white */
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+  color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus, select:focus {
+  border-color: #ffd700; /* Gold color on focus */
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: #ffd700; /* Gold color */
+  color: #1e3c72; /* Dark blue */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background-color: #4a90e2; /* Blue on hover */
+  color: #fff;
+  transform: scale(1.05);
+}
+
+p {
+  text-align: center;
+  margin-top: 20px;
+  color: #ccc; /* Light gray */
+}
+
+a {
+  color: #ffd700; /* Gold color */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #4a90e2; /* Blue on hover */
+}
+
+/* Donation Logs */
+#donation-logs ul {
+  list-style: none;
+  padding: 0;
+}
+
+#donation-logs li {
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#donation-logs li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Payment Details */
+.payment-details {
+  display: none;
+  margin-bottom: 20px;
+}
+
+#credit-card-info {
+  display: block; /* Show credit card details by default */
+}
+
+#paypal-info p {
+  color: #ccc; /* Light gray */
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+  color: #fff;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Blur effect */
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .admin-container, .login-container, .signup-container {
+    padding: 20px;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

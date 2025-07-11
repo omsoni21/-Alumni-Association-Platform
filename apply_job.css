@@ -1,0 +1,134 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #003366, #002244);
+}
+
+/* Header */
+header {
+  background-color: #003366; /* IIT Bombay's dark blue */
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+nav ul li {
+  margin: 0;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #ffd700; /* Gold color for hover effect */
+}
+
+/* Apply Job Container */
+#applyJobContainer {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+  color: #003366; /* IIT Bombay's dark blue */
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #003366; /* IIT Bombay's dark blue */
+}
+
+input[type="text"], input[type="email"], select, input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, select:focus, input[type="file"]:focus {
+  border-color: #003366; /* IIT Bombay's dark blue on focus */
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: #003366; /* IIT Bombay's dark blue */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #002244; /* Darker blue on hover */
+  transform: translateY(-2px);
+}
+
+/* Success Message */
+#applySuccessMessage {
+  text-align: center;
+  color: #28a745; /* Green color for success */
+  margin-top: 20px;
+  font-weight: 500;
+  display: none; /* Hidden by default */
+}
+
+#applySuccessMessage.visible {
+  display: block; /* Show when application is submitted */
+}

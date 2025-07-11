@@ -1,0 +1,35 @@
+// JavaScript to handle form validation and submission
+document.getElementById("feedback-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Collect form values
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const rating = document.getElementById("rating").value;
+    const comments = document.getElementById("comments").value;
+
+    // Simple validation: Check if all fields are filled
+    if (name === "" || email === "" || comments === "") {
+        alert("Please fill in all the fields!");
+        return;
+    }
+
+    // Show a thank you message after submission
+    document.getElementById("feedback-form").reset();  // Reset form fields
+    document.getElementById("response-message").style.display = "block"; // Show response message
+    setTimeout(function() {
+        document.getElementById("response-message").style.display = "none"; // Hide response after 3 seconds
+    }, 3000);
+
+    // Log the feedback to the console (you can replace this with an API call to submit feedback to a server)
+    console.log(`Feedback submitted:
+    Name: ${name}
+    Email: ${email}
+    Rating: ${rating}
+    Comments: ${comments}`);
+});
+
+// Update the rating output as the slider changes
+document.getElementById("rating").addEventListener("input", function() {
+    document.getElementById("rating-output").textContent = this.value;
+});

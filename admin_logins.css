@@ -1,0 +1,194 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header Styles */
+header {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #00bcd4; /* Teal color on hover */
+}
+
+nav ul li button {
+  background: #00bcd4; /* Teal color */
+  border: none;
+  padding: 8px 15px;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+nav ul li button:hover {
+  background: #0097a7; /* Darker teal on hover */
+}
+
+/* Container Styles */
+.container {
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+  margin-top: 80px; /* To account for the fixed header */
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Form Group Styles */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  color: #fff;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.form-group input:focus {
+  background: rgba(255, 255, 255, 0.3); /* Slightly brighter on focus */
+  outline: none;
+}
+
+/* Button Styles */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background: #00bcd4; /* Teal color */
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background: #0097a7; /* Darker teal on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Link Styles */
+p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+p a {
+  color: #00bcd4; /* Teal color */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+p a:hover {
+  color: #0097a7; /* Darker teal on hover */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  nav ul li {
+    margin: 0 10px;
+  }
+
+  nav ul li button {
+    padding: 6px 12px;
+  }
+}

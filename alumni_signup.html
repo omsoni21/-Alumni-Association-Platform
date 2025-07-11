@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Signup - Sistec GN</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #f5f5f5;
+        }
+
+        .navbar {
+            background: #e3f2fd;
+            padding: 12px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #1976d2;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: #1976d2;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .nav-links a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-links a i {
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            background: #1976d2;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .signup-container {
+            flex: 1;
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .signup-image {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            min-height: 500px;
+        }
+
+        .signup-form {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .signup-header h1 {
+            color: #1a237e;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .signup-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: px;
+            color: #1a237e;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 6px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #d4af37;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #d4af37, #b38f2a);
+            color: #1a237e;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .signup-btn:hover {
+            background: linear-gradient(135deg, #b38f2a, #d4af37);
+            transform: translateY(-2px);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: #2ecc71;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 22px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .signup-container {
+                flex-direction: column;
+            }
+            .signup-image {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Sistec GN Alumni Logo">
+            <h1>Alumni Association</h1>
+        </div>
+            <div class="nav-links">
+                <a href="home.html"><i class="fas fa-home"></i> Home</a>
+                <a href="home.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="home.html"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="signup-container">
+        <div class="signup-image"></div>
+        <div class="signup-form">
+            <div class="signup-header">
+                <h1>Alumni Signup</h1>
+                <p>Create your alumni account</p>
+            </div>
+
+            <form id="alumniSignupForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                        <div class="error-message" id="firstNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                        <div class="error-message" id="lastNameError"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="academicYear">Academic Year</label>
+                        <select id="academicYear" name="academicYear" required>
+                            <option value="">Select Academic Year</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018</option>
+                            <option value="2017">2017</option>
+                            <option value="2016">2016</option>
+                            <option value="2015">2015</option>
+                            <option value="2014">2014</option>
+                            <option value="2013">2013</option>
+                            <option value="2012">2012</option>
+                            <option value="2011">2011</option>
+                            <option value="2010">2010</option>
+                        </select>
+                        <div class="error-message" id="academicYearError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="branch">Branch</label>
+                        <select id="branch" name="branch" required>
+                            <option value="">Select Branch</option>
+                            <option value="CSE">Computer Science & Engineering</option>
+                            <option value="IT">Information Technology</option>
+                            <option value="ECE">Electronics & Communication</option>
+                            <option value="EE">Electrical Engineering</option>
+                            <option value="ME">Mechanical Engineering</option>
+                            <option value="CE">Civil Engineering</option>
+                            <option value="BT">Biotechnology</option>
+                        </select>
+                        <div class="error-message" id="branchError"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="rollNumber">Roll Number</label>
+                    <input type="text" id="rollNumber" name="rollNumber" required>
+                    <div class="error-message" id="rollNumberError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="currentCompany">Current Company (Optional)</label>
+                    <input type="text" id="currentCompany" name="currentCompany">
+                </div>
+
+                <div class="form-group">
+                    <label for="designation">Designation (Optional)</label>
+                    <input type="text" id="designation" name="designation">
+                </div>
+
+                <button type="submit" class="signup-btn">Create Account</button>
+            </form>
+
+            <div class="form-footer">
+                <p>Already have an account? <a href="alumni_login.html">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('alumniSignupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Get form values
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const academicYear = document.getElementById('academicYear').value;
+            const branch = document.getElementById('branch').value;
+            const rollNumber = document.getElementById('rollNumber').value;
+            const currentCompany = document.getElementById('currentCompany').value;
+            const designation = document.getElementById('designation').value;
+
+            // Validation
+            let isValid = true;
+
+            if (!firstName) {
+                document.getElementById('firstNameError').textContent = 'First name is required';
+                document.getElementById('firstNameError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!lastName) {
+                document.getElementById('lastNameError').textContent = 'Last name is required';
+                document.getElementById('lastNameError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!email) {
+                document.getElementById('emailError').textContent = 'Email is required';
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!password) {
+                document.getElementById('passwordError').textContent = 'Password is required';
+                document.getElementById('passwordError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!academicYear) {
+                document.getElementById('academicYearError').textContent = 'Academic Year is required';
+                document.getElementById('academicYearError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!branch) {
+                document.getElementById('branchError').textContent = 'Branch is required';
+                document.getElementById('branchError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!rollNumber) {
+                document.getElementById('rollNumberError').textContent = 'Roll Number is required';
+                document.getElementById('rollNumberError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Check if email already exists
+                const existingUser = localStorage.getItem(email);
+                if (existingUser) {
+                    alert('An account with this email already exists. Please use a different email or login.');
+                    return;
+                }
+
+                // Create user object
+                const userData = {
+                    id: Date.now().toString(),
+                    name: `${firstName} ${lastName}`,
+                    email: email,
+                    password: password,
+                    academicYear: academicYear,
+                    branch: branch,
+                    approved: false,
+                    registrationDate: new Date().toISOString()
+                };
+
+                // Store user data in localStorage
+                localStorage.setItem(email, JSON.stringify(userData));
+
+                // Add to pending users list
+                const pendingUsers = JSON.parse(localStorage.getItem('pendingUsers')) || [];
+                pendingUsers.push({
+                    name: userData.name,
+                    email: userData.email,
+                    registrationDate: userData.registrationDate
+                });
+                localStorage.setItem('pendingUsers', JSON.stringify(pendingUsers));
+
+                // Show success message
+                alert('Your account has been created successfully! Please wait for admin approval before logging in.');
+                window.location.href = 'alumni_login.html';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Alumni Dashboard</title>
+    <link rel="stylesheet" href="alumni-dashboard.css">
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="logo.png" alt="Sistec GN Alumni Logo" loading="lazy" width="40" height="40">
+                <h1>Alumni Association</h1>
+            </div>
+            <div class="user-info">
+                <span class="welcome-text">Welcome, <span id="alumniName">Alumni</span></span>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Your Profile</h1>
+            <p>Manage your personal information and profile settings</p>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-picture-section">
+                <div class="profile-picture-container">
+                    <img id="profilePicture" src="default-profile.png" alt="Profile Picture" onclick="openImageModal()">
+                    <div class="profile-picture-overlay">
+                        <label for="profilePictureInput" class="change-picture-btn">
+                            <i class="fas fa-camera"></i>
+                            Change Picture
+                        </label>
+                        <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="profile-picture-info">
+                    <p>Click the image to view full size</p>
+                    <p>Click the camera icon to change your profile picture</p>
+                    <p class="file-size-info">Maximum file size: 2MB</p>
+                </div>
+            </div>
+
+            <div class="profile-form">
+                <form id="profileForm">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" name="dob">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Education Details</h3>
+                        <div class="form-group">
+                            <label for="batch">Batch Year</label>
+                            <input type="number" id="batch" name="batch" min="2000" max="2024">
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Department</label>
+                            <input type="text" id="department" name="department">
+                        </div>
+                        <div class="form-group">
+                            <label for="degree">Degree</label>
+                            <input type="text" id="degree" name="degree">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Professional Information</h3>
+                        <div class="form-group">
+                            <label for="currentCompany">Current Company</label>
+                            <input type="text" id="currentCompany" name="currentCompany">
+                        </div>
+                        <div class="form-group">
+                            <label for="position">Position</label>
+                            <input type="text" id="position" name="position">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn Profile</label>
+                            <input type="url" id="linkedin" name="linkedin">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="editBtn" class="btn-primary">Edit Profile</button>
+                        <button type="submit" id="saveBtn" class="btn-primary" style="display: none;">Save Changes</button>
+                        <button type="button" id="cancelBtn" class="btn-secondary" style="display: none;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeImageModal()">&times;</span>
+            <img id="modalImage" src="" alt="Profile Picture">
+            <div class="modal-actions">
+                <label for="modalProfilePictureInput" class="btn-primary">
+                    <i class="fas fa-camera"></i>
+                    Change Picture
+                </label>
+                <input type="file" id="modalProfilePictureInput" accept="image/*" style="display: none;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cache DOM elements
+        const elements = {
+            profileForm: document.getElementById('profileForm'),
+            editBtn: document.getElementById('editBtn'),
+            saveBtn: document.getElementById('saveBtn'),
+            cancelBtn: document.getElementById('cancelBtn'),
+            profilePicture: document.getElementById('profilePicture'),
+            profilePictureInput: document.getElementById('profilePictureInput'),
+            modalProfilePictureInput: document.getElementById('modalProfilePictureInput'),
+            modalImage: document.getElementById('modalImage'),
+            imageModal: document.getElementById('imageModal'),
+            alumniName: document.getElementById('alumniName')
+        };
+
+        // Function to load profile data
+        function loadProfileData() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                // Set form values from currentUser data
+                document.getElementById('fullName').value = currentUser.name || '';
+                document.getElementById('email').value = currentUser.email || '';
+                document.getElementById('phone').value = currentUser.phone || '';
+                document.getElementById('dob').value = currentUser.dob || '';
+                document.getElementById('batch').value = currentUser.batch || '';
+                document.getElementById('department').value = currentUser.department || '';
+                document.getElementById('degree').value = currentUser.degree || '';
+                document.getElementById('currentCompany').value = currentUser.currentCompany || '';
+                document.getElementById('position').value = currentUser.position || '';
+                document.getElementById('linkedin').value = currentUser.linkedin || '';
+                
+                // Set profile picture if available
+                if (currentUser.profilePicture) {
+                    elements.profilePicture.src = currentUser.profilePicture;
+                }
+                
+                // Set welcome name
+                elements.alumniName.textContent = currentUser.name;
+            }
+        }
+
+        // Function to enable/disable form editing
+        function toggleFormEditing(enable) {
+            const inputs = elements.profileForm.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.disabled = !enable;
+            });
+            elements.editBtn.style.display = enable ? 'none' : 'block';
+            elements.saveBtn.style.display = enable ? 'block' : 'none';
+            elements.cancelBtn.style.display = enable ? 'block' : 'none';
+        }
+
+        // Function to open image modal
+        function openImageModal() {
+            elements.modalImage.src = elements.profilePicture.src;
+            elements.imageModal.style.display = 'block';
+        }
+
+        // Function to close image modal
+        function closeImageModal() {
+            elements.imageModal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside the image
+        window.onclick = function(event) {
+            if (event.target === elements.imageModal) {
+                closeImageModal();
+            }
+        }
+
+        // Function to handle profile picture change
+        function handleProfilePictureChange(file) {
+            if (file) {
+                // Check file size (2MB limit)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('File size must be less than 2MB');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    elements.profilePicture.src = e.target.result;
+                    elements.modalImage.src = e.target.result;
+                    
+                    // Save the new profile picture
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    if (currentUser) {
+                        currentUser.profilePicture = e.target.result;
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Event listeners for profile picture inputs
+        elements.profilePictureInput.addEventListener('change', function(e) {
+            handleProfilePictureChange(e.target.files[0]);
+        });
+
+        elements.modalProfilePictureInput.addEventListener('change', function(e) {
+            handleProfilePictureChange(e.target.files[0]);
+        });
+
+        // Handle form submission
+        elements.profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                // Update user data
+                currentUser.name = document.getElementById('fullName').value;
+                currentUser.email = document.getElementById('email').value;
+                currentUser.phone = document.getElementById('phone').value;
+                currentUser.dob = document.getElementById('dob').value;
+                currentUser.batch = document.getElementById('batch').value;
+                currentUser.department = document.getElementById('department').value;
+                currentUser.degree = document.getElementById('degree').value;
+                currentUser.currentCompany = document.getElementById('currentCompany').value;
+                currentUser.position = document.getElementById('position').value;
+                currentUser.linkedin = document.getElementById('linkedin').value;
+
+                // Save updated data
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Disable form editing
+                toggleFormEditing(false);
+                
+                // Show success message
+                alert('Profile updated successfully!');
+            }
+        });
+
+        // Event listeners
+        elements.editBtn.addEventListener('click', () => toggleFormEditing(true));
+        elements.cancelBtn.addEventListener('click', () => {
+            loadProfileData();
+            toggleFormEditing(false);
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfileData();
+            toggleFormEditing(false);
+        });
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'alumni_login.html';
+        }
+    </script>
+</body>
+</html> 

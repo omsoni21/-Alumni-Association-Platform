@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Jobs</title>
+  <link rel="stylesheet" href="admin_login.css">
+</head>
+<body onload="checkLoggedInUser()">
+  <header>
+    <nav>
+      <ul>
+        <li><a href="Alumni_home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="event.html">Events</a></li>
+        <li><a href="jobportal.html">Upload Jobs</a></li>
+        <li><a href="apply_job.html">Apply for Jobs</a></li>
+        <li><button onclick="logoutAdmin()">Logout</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Upload a Job</h1>
+    <form id="uploadJobForm">
+      <div class="form-group">
+        <label for="jobTitle">Job Title:</label>
+        <input type="text" id="jobTitle" required>
+      </div>
+      <div class="form-group">
+        <label for="companyName">Company Name:</label>
+        <input type="text" id="companyName" required>
+      </div>
+      <div class="form-group">
+        <label for="jobDescription">Job Description:</label>
+        <textarea id="jobDescription" rows="4" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="skillRequirement">Skill Requirement:</label>
+        <input type="text" id="skillRequirement" placeholder="Enter skills (comma-separated)" required>
+      </div>
+      <button type="submit">Upload Job</button>
+    </form>
+    <div id="uploadSuccessMessage" class="hidden">
+      <p>Job uploaded successfully!</p>
+    </div>
+  </div>
+
+  <script>
+    // Function to check if the user is logged in
+    function checkLoggedInUser() {
+      const loggedInUser = localStorage.getItem('loggedInUser');
+      if (!loggedInUser) {
+        window.location.href = 'admin_login.html';
+      }
+    }
+
+    // Function to handle job upload
+    document.getElementById('uploadJobForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const jobTitle = document.getElementById('jobTitle').value;
+      const companyName = document.getElementById('companyName').value;
+      const jobDescription = document.getElementById('jobDescription').value;
+      const skillRequirement = document.getElementById('skillRequirement').value;
+
+      // Convert comma-separated skills into an array
+      const skills = skillRequirement.split(',').map(skill => skill.trim());
+
+      const job = {
+        id: Date.now(),
+        title: jobTitle,
+        company: companyName,
+        description: jobDescription,
+        skills: skills, // Add skills to the job object
+        datePosted: new Date().toLocaleDateString(),
+      };
+
+      const existingJobs = JSON.parse(localStorage.getItem('jobs')) || [];
+      existingJobs.push(job);
+      localStorage.setItem('jobs', JSON.stringify(existingJobs));
+
+      // Show success message
+      document.getElementById('uploadSuccessMessage').classList.remove('hidden');
+
+      // Reset form
+      document.getElementById('uploadJobForm').reset();
+
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        document.getElementById('uploadSuccessMessage').classList.add('hidden');
+      }, 3000);
+    });
+
+    // Function to logout
+    function logoutAdmin() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'admin_login.html';
+    }
+  </script>
+</body>
+</html>
