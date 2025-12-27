@@ -34,27 +34,7 @@ Deployment: Netlify
 
 Version Control: Git & GitHub
 
-📂 Project Structure
-Alumni-Association-Platform/
-│
-├── Alumni_home.html
-├── Alumniidas.html
-├── about.html
-├── about.css
-├── about.js
-├── achiv.html
-├── achiv.css
-├── achiv.js
-├── Contact.html
-├── Contact.css
-├── Contact.js
-├── add-alumni.html
-├── add-alumni.css
-├── add-event.css
-├── Navbar.js
-├── README.md
-├── LICENSE
-└── assets/ (images, logos, gallery, etc.)
+
 
 🚀 Getting Started
 1️⃣ Clone the Repository
