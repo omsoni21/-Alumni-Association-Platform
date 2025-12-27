@@ -2,6 +2,7 @@
 A web-based Alumni Association Platform designed to strengthen connections between alumni and their alma mater. The platform enables networking, event engagement, career support, and community building through a simple and user-friendly interface.
 
 🔗 Live Demo: https://alumni-ses.netlify.app/
+ 
  Admin Id :- admin
  Admin pass:- admin123
  
