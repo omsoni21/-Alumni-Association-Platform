@@ -12,32 +12,34 @@ Admin Pass:- admin123
 
 ## 📸 Project Screenshots
 
+## 📸 Project Screenshots
+
 ### 🏠 Home Page
-![Home](screnshotes/a.png)
-![Home](screnshotes/b.png)
-![Home](screnshotes/c.png)
-![Home](screnshotes/d.png)
+![Home](a.png)
+![Home](b.png)
+![Home](c.png)
+![Home](d.png)
 
 ---
 
 ### 📊 Dashboard
-![Dashboard](screnshotes/g.png)
-![Dashboard](screnshotes/h.png)
-![Dashboard](screnshotes/i.png)
-![Dashboard](screnshotes/j.png)
+![Dashboard](g.png)
+![Dashboard](h.png)
+![Dashboard](i.png)
+![Dashboard](j.png)
 
 ---
 
 ### 🛠 Admin Panel
-![Admin](screnshotes/k.png)
-![Admin](screnshotes/l.png)
+![Admin](k.png)
+![Admin](l.png)
 
 ---
 
 ### 📅 Events
-![Events](screnshotes/event.png)
-![Events](screnshotes/bulk.png)
-![Events](screnshotes/us.png)
+![Events](event.png)
+![Events](bulk.png)
+![Events](us.png)
 
 📌 Features
 
