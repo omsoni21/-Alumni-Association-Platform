@@ -19,27 +19,35 @@ Admin Pass:- admin123
 ![Home](b.png)
 ![Home](c.png)
 ![Home](d.png)
+![Home](g.png)
 
 ---
 
-### 📊 Dashboard
-![Dashboard](g.png)
-![Dashboard](h.png)
-![Dashboard](i.png)
+### Login Page
+![Login](h.png)
+![Login](i.png)
+
+---
+### 📊 Admin Dashboard
 ![Dashboard](j.png)
+![Dashboard](bulk.png)
+![Dashboard](us.png)
 
 ---
 
-### 🛠 Admin Panel
-![Admin](k.png)
-![Admin](l.png)
+### webinar
+![webinar](k.png)
+
+---
+
+### Donation
+![Donation](l.png)
 
 ---
 
 ### 📅 Events
 ![Events](event.png)
-![Events](bulk.png)
-![Events](us.png)
+
 
 📌 Features
 
