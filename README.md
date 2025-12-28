@@ -8,6 +8,29 @@ Admin Id :- admin
 
 Admin Pass:- admin123
 
+## 📸 Project Screenshots
+
+### Home Page
+![Home](screnshotes/a.png)
+![Home](screnshotes/b.png)
+![Home](screnshotes/c.png)
+![Home](screnshotes/d.png)
+
+### Dashboard
+![Dashboard](screnshotes/g.png)
+![Dashboard](screnshotes/h.png)
+![Dashboard](screnshotes/i.png)
+![Dashboard](screnshotes/j.png)
+
+### Admin Panel
+![Admin](screnshotes/k.png)
+![Admin](screnshotes/l.png)
+
+### Events
+![Events](screnshotes/event.png)
+![Events](screnshotes/bulk.png)
+![Events](screnshotes/us.png)
+
 📌 Features
 
 🏠 Home Page – Overview of the alumni association and its mission
