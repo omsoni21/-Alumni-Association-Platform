@@ -10,10 +10,6 @@ Admin Pass:- admin123
 
 ## 📸 Project Screenshots
 
-## 📸 Project Screenshots
-
-## 📸 Project Screenshots
-
 ### 🏠 Home Page
 ![Home](a.png)
 ![Home](b.png)
