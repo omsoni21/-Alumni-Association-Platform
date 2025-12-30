@@ -4,7 +4,7 @@ A web-based Alumni Association Platform designed to strengthen connections betwe
 
 🔗 Live Demo: https://alumni-ses.netlify.app/
 
-Admin Id :- admin
+Admin Id : admin
 
 Admin Pass:- admin123
 
